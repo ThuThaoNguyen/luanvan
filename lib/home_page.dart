@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -8,12 +9,15 @@ import 'package:tflite/tflite.dart';
 import 'package:tflite_example/help_infor.dart';
 import 'marketrate.dart';
 import 'weatherforecast.dart';
+import 'login.dart';
 //void main() => runApp(MyApp());
 
 class TutorialHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: Scaffold(body: Center(child: MyImagePicker())));    // MyImagePicker()
+    return MaterialApp(
+        home:
+            Scaffold(body: Center(child: MyImagePicker()))); // MyImagePicker()
   }
 }
 
@@ -21,10 +25,11 @@ class MyImagePicker extends StatefulWidget {
   @override
   MyImagePickerState createState() => MyImagePickerState();
 }
+
 //@override
-//  Future navigateToMarketRate(context) async {
+//  Future navigateToLogin(context) async {
 //  Navigator.push(
-//      context, MaterialPageRoute(builder: (context) => market_rate()));
+//      context, MaterialPageRoute(builder: (context) => login()));
 //}
 //@override
 //  Future navigateToWeatherForecast(context) async {
@@ -38,6 +43,9 @@ class MyImagePicker extends StatefulWidget {
 //}
 @override
 class MyImagePickerState extends State<MyImagePicker> {
+
+  TextStyle style = TextStyle(fontFamily: 'Montserrat');
+
   File imageURI;
   String result;
   String path;
@@ -84,7 +92,7 @@ class MyImagePickerState extends State<MyImagePicker> {
     return BoxDecoration(
       border: Border.all(
         width: 1, //
-        color:Colors.green[600], //                  <--- border width here
+        color: Colors.green[600], //                  <--- border width here
       ),
     );
   }
@@ -99,13 +107,15 @@ class MyImagePickerState extends State<MyImagePicker> {
           tooltip: "Navigation menu",
           onPressed: null,
         ),
-        actions: <Widget>[
-             IconButton(
-                 icon: Icon(Icons.person, size: 30.0,color: Colors.white,),
-                 onPressed: null,
-
-          ),
-        ],
+//        actions: <Widget>[
+//             IconButton(
+//                 icon: Icon(Icons.person, size: 30.0,color: Colors.white,),
+//                 onPressed: (){
+//                   navigateToLogin(context);
+//                 },
+//
+//          ),
+//        ],
         backgroundColor: Colors.green[600], //lightGreen[600],
 //        leading: Container(
 ////        padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
@@ -120,7 +130,7 @@ class MyImagePickerState extends State<MyImagePicker> {
             color: Colors.white,
             fontSize: 20.0,
             fontStyle: FontStyle.italic,
-            fontFamily: "Merriweather",
+            fontFamily: "Montserrat",
           ),
         ),
       ),
@@ -129,14 +139,14 @@ class MyImagePickerState extends State<MyImagePicker> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               imageURI == null
-                  ? Text('Không có hình ảnh.')
+                  ? Text('Không có hình ảnh.',style: style,)
                   : Image.file(imageURI,
                       width: 300, height: 200, fit: BoxFit.cover),
               Container(
                   margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
                   child: RaisedButton(
                     onPressed: () => getImageFromCamera(),
-                    child: Text('Chọn hình ảnh từ camera.'),
+                    child: Text('Chọn hình ảnh từ camera.',style: style,),
                     textColor: Colors.white,
                     color: Colors.green[600],
                     padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
@@ -145,7 +155,7 @@ class MyImagePickerState extends State<MyImagePicker> {
                   margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: RaisedButton(
                     onPressed: () => getImageFromGallery(),
-                    child: Text('Chọn hình ảnh từ bộ sưu tập.'),
+                    child: Text('Chọn hình ảnh từ bộ sưu tập.',style: style,),
                     textColor: Colors.white,
                     color: Colors.green[600],
                     padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
@@ -156,7 +166,7 @@ class MyImagePickerState extends State<MyImagePicker> {
                     onPressed: () {
                       classifyImage();
                     },
-                    child: Text('NHẬN DIỆN'),
+                    child: Text('NHẬN DIỆN',style: style,),
                     textColor: Colors.white,
                     color: Colors.green[600],
                     padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
@@ -164,68 +174,19 @@ class MyImagePickerState extends State<MyImagePicker> {
               result == null ? Text('Kết quả') : Text(result)
             ]),
       ),
-//      bottomNavigationBar: Container(
-//          decoration: myboxDecoration(),
-//          child: Row(
-//              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//              children: <Widget>[
-//
-//                    IconButton(
-//                        icon: Icon(
-//                          Icons.home,
-//                          color: Colors.green[600],
-//                        ),
-//                        color: Colors.green[600],
-//                        tooltip: "home",
-//                        iconSize: 40.0,
-//                        onPressed: null),
-//
-//
-//
-//                IconButton(
-//                    icon: Icon(
-//                      Icons.show_chart,
-//                      color: Colors.grey,
-//                    ),
-//                  //  color: Colors.green[600],
-//                    tooltip: "Market Rate",
-//                    iconSize: 40.0,
-//                    onPressed: (){
-//                      navigateToMarketRate(context);
-//                    }),
-//                IconButton(
-//                    icon: Icon(
-//                      Icons.wb_sunny,
-//                      color: Colors.grey,
-//                    ),
-//                    color: Colors.green[600],
-//                    tooltip: "Weather Forecast",
-//                    iconSize: 40.0,
-//                    onPressed: (){
-//                      navigateToWeatherForecast(context);
-//                    }),
-//                IconButton(
-//                    icon: Icon(
-//                      Icons.info,
-//                      color: Colors.grey,
-//                    ),
-//                    tooltip: "Infor",
-//                    iconSize: 40.0,
-//                    onPressed: (){
-//                      navigateToHelpInfor(context);
-//                    })
-//      ]),
-//
-//        ),
-
     );
-
   }
 }
+//@override
+//Future navigateToLogin(context) async => Navigator.push(
+//    context, MaterialPageRoute(builder: (context) => login()));
+
 class Myapp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: Scaffold(body: Center(child: MyBottomBarDemo())));    // MyImagePicker()
+    return MaterialApp(
+        home: Scaffold(
+            body: Center(child: MyBottomBarDemo()))); // MyImagePicker()
   }
 }
 
@@ -235,7 +196,6 @@ class MyBottomBarDemo extends StatefulWidget {
 }
 
 class _MyBottomBarDemoState extends State<MyBottomBarDemo> {
-
   int _pageIndex = 0;
   PageController _pageController;
 
@@ -244,9 +204,10 @@ class _MyBottomBarDemoState extends State<MyBottomBarDemo> {
     market_rate(),
     weather_forecast(),
     help_infor(),
+
   ];
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _pageController = PageController(initialPage: _pageIndex);
   }
@@ -258,26 +219,57 @@ class _MyBottomBarDemoState extends State<MyBottomBarDemo> {
   }
 
   @override
+  Future navigateToLogin(context) async =>
+      Navigator.push(context, MaterialPageRoute(builder: (context) => login()));
+
+  @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
 
+
+//        title: Center(
+//          child: Image.asset(
+//            "assets/images/LogoMakr_42xAgW.png",
+//            fit: BoxFit.fill,
+//            width: 30.0,
+//            height: 20.0,
+//          ),
+//        ),
+//        actions: <Widget>[
+//          IconButton(
+//            icon: Icon(
+//              Icons.person,
+//              size: 30.0,
+//              color: Colors.white,
+//            ),
+//            onPressed: () {
+//              navigateToLogin(context);
+//            },
+//          ),
+//        ],
+//
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _pageIndex,
         onTap: onTabTapped,
         //backgroundColor: Colors.green[600],
-        iconSize: 25.0,
+        iconSize: 20.0,
         selectedItemColor: Colors.green[600],
         unselectedItemColor: Colors.grey,
-        showUnselectedLabels: true,
-        selectedLabelStyle: TextStyle (color: Colors.green[600]),
-        unselectedLabelStyle: TextStyle (color: Colors.grey),
+        showUnselectedLabels: false,
+        selectedLabelStyle: TextStyle(color: Colors.green[600],fontFamily: "Montserrat"),
+        unselectedLabelStyle: TextStyle(color: Colors.grey,fontFamily: "Montserrat"),
         items: const <BottomNavigationBarItem>[
-
-          BottomNavigationBarItem( icon: Icon(Icons.home), title: Text("Trang chủ")),
-          BottomNavigationBarItem(icon: Icon(Icons.show_chart), title: Text("Giá")),
-          BottomNavigationBarItem(icon: Icon(Icons.cloud_queue), title: Text("Thời tiết")),
-          BottomNavigationBarItem(icon: Icon(Icons.info_outline), title: Text("Thông tin")),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home), title: Text("Trang chủ")),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.show_chart), title: Text("Giá")),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.cloud_queue), title: Text("Thời tiết")),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.info_outline), title: Text("Thông tin")),
+//          BottomNavigationBarItem(
+//              icon: Icon(Icons.person), title: Text("Đăng nhập")),
         ],
 
       ),
@@ -288,6 +280,7 @@ class _MyBottomBarDemoState extends State<MyBottomBarDemo> {
       ),
     );
   }
+
   void onPageChanged(int page) {
     setState(() {
       this._pageIndex = page;
@@ -295,8 +288,7 @@ class _MyBottomBarDemoState extends State<MyBottomBarDemo> {
   }
 
   void onTabTapped(int index) {
-    this._pageController.animateToPage(index,duration: const Duration(milliseconds: 500),curve: Curves.easeInOut);
+    this._pageController.animateToPage(index,
+        duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
   }
 }
-
-
