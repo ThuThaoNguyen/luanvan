@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "673866928334",
+    "firebase_url": "https://onrice-aac04.firebaseio.com",
+    "project_id": "onrice-aac04",
+    "storage_bucket": "onrice-aac04.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:673866928334:android:448337214e83c7c60d409f",
+        "android_client_info": {
+          "package_name": "com.example.tflite_example"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "673866928334-cen3o6ulgplof00j2aa5hr9p2t5vo1g5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPbOP8LrXQoQ3PkIEr06wmcAk_aW4Pyqc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "673866928334-cen3o6ulgplof00j2aa5hr9p2t5vo1g5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

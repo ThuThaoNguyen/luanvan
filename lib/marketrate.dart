@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,8 +8,52 @@ import 'package:tflite/tflite.dart';
 import 'package:tflite_example/home_page.dart';
 import 'marketrate.dart';
 import 'weatherforecast.dart';
-class market_rate extends StatelessWidget {
-//  @override
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
+
+final FirebaseApp app = initializeApp(
+    options: FirebaseOptions(
+        googleAppID:"1:673866928334:android:448337214e83c7c60d409f",
+        apiKey:'AIzaSyBPbOP8LrXQoQ3PkIEr06wmcAk_aW4Pyqc' ,
+        databaseURL: 'https://onrice-aac04.firebaseio.com'
+    )
+);
+
+FirebaseApp initializeApp({FirebaseOptions options}) {
+
+}
+class MarketRate{
+ String key;
+ String Id;
+ String Id_user;
+ String name;
+ String price;
+ String date;
+ String location;
+ MarketRate(this.Id,this.Id_user,this.name,this.price,this.date,this.location, );
+ MarketRate.fromSnapshot(DataSnapshot snapshot)
+     :key=snapshot.key,
+       Id= snapshot.value['Id'],
+       Id_user=snapshot.value['Id_user'],
+       name=snapshot.value['name'],
+       price=snapshot.value['price'],
+       date=snapshot.value['date'],
+       location=snapshot.value['location'];
+  toJson(){
+   return {
+     "Id": Id,
+     "Id_user":Id_user,
+     "name": name,
+     "price": price,
+     "date":date,
+     "location":location,
+   };
+ }
+}
+class market_rate extends StatefulWidget{
+  @override
+  marketHome createState() => marketHome();
 //  Future navigateToHome(context) async {
 //    Navigator.push(
 //        context, MaterialPageRoute(builder: (context) => TutorialHome()));
@@ -18,6 +63,20 @@ class market_rate extends StatelessWidget {
 //    Navigator.push(
 //        context, MaterialPageRoute(builder: (context) => weather_forecast()));
 //  }
+}
+class marketHome extends State<market_rate>{
+  List<MarketRate> market_rate = List();
+  MarketRate rate;
+  DatabaseReference rateRef;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  @override
+  void initState(){
+    super.initState();
+    rate = MarketRate("","", "","","","");
+    final FirebaseDatabase database = FirebaseDatabase (app: app);
+    rateRef = database.reference().child("market_rate");
+//    rateRef = FirebaseDatabase.instance.reference().child("market_rate");
+  }
   @override
   BoxDecoration myboxDecoration() {
     return BoxDecoration(
@@ -27,6 +86,7 @@ class market_rate extends StatelessWidget {
       ),
     );
   }
+
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
@@ -103,86 +163,59 @@ class market_rate extends StatelessWidget {
             ],
           ),
         ),
-        DataTable(
-          columns: [
-            DataColumn(label: Text("STT")),
-            DataColumn(label: Text("Tên Nông Sản")),
-            DataColumn(label: Text("Giá (Đồng/ 1kg)")),
-          ],
-          rows: [
-            DataRow(cells: [
-              DataCell(Text('1')),
-              DataCell(Text('Lúa 504')),
-              DataCell(Text('4000')),
-            ]),
-            DataRow(cells: [
-              DataCell(Text('2')),
-              DataCell(Text('Khổ qua')),
-              DataCell(Text('4000')),
-            ]),
-          ],
-        ),
-      ]),
-//      floatingActionButton: FloatingActionButton(
-//        backgroundColor: Colors.lightGreen,
-//        child: (IconButton(
-//            icon: Icon(
-//              Icons.camera_alt,
-//              color: Colors.white,
-//              size: 30.0,
-//            ))),
-//        tooltip: "Add",
-//        onPressed: null,
-//      ),
-//      bottomNavigationBar: Container(
-//        decoration: myboxDecoration(),
-//        child: Row(
-//
-//            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//            children: <Widget>[
-//              IconButton(
-//                  icon: Icon(
-//                    Icons.home,
-//                    color: Colors.grey,
-//                  ),
-//                  color: Colors.green[600],
-//                  tooltip: "home",
-//                  iconSize: 40.0,
-//                  onPressed: (){
-//                    navigateToHome(context);
-//                  }),
-//              IconButton(
-//                  icon: Icon(
-//                    Icons.show_chart,
-//                    color: Colors.green[600],
-//                  ),
-//                  color: Colors.green[600],
-//                  tooltip: "Market Rate",
-//                  iconSize: 40.0,
-//                  onPressed: null),
-//              IconButton(
-//                  icon: Icon(
-//                    Icons.wb_sunny,
-//                    color: Colors.grey,
-//                  ),
-//                  color: Colors.green[600],
-//                  tooltip: "Weather Forecast",
-//                  iconSize: 40.0,
-//                  onPressed: (){
-//                    navigateToWeatherForecast(context);
-//                  }),
-//              IconButton(
-//                  icon: Icon(
-//                    Icons.info,
-//                    color: Colors.grey,
-//                  ),
-//                  tooltip: "Infor",
-//                  iconSize: 40.0,
-//                  onPressed: (){
-//                    navigateToHelpInfor(context);
-//                  },)
+//        DataTable(
+//          columns: [
+//          //  DataColumn(label: Text("STT")),
+//            DataColumn(label: Text("Tên Nông Sản")),
+//            DataColumn(label: Text("Giá (Đồng/ 1kg)")),
+//          ],
+//           rows: [
+//            DataRow(cells: [
+//             // DataCell(Text('1')),
+//              DataCell(Text('Lúa 504')),
+//              DataCell(Text('4000')),
 //            ]),
-//      ),
+//            DataRow(cells: [
+//           //   DataCell(Text('2')),
+//              DataCell(Text('Khổ qua')),
+//              DataCell(Text('4000')),
+//            ]
+//            ),
+//          ],
+//        ),
+       Flexible(
+        child: FirebaseAnimatedList(
+          query: rateRef,
+
+          itemBuilder: (BuildContext context,DataSnapshot snapshot,
+              Animation<double> animation, int index){
+             return
+//            new ListTile(
+//              leading: Icon(Icons.message),
+//              title: Text(snapshot.value["name"].toString()),   // market_rate[index].name
+//              subtitle: Text(snapshot.value["price"].toString()),
+//            );
+
+            new DataTable(
+              columns: [
+                //  DataColumn(label: Text("STT")),
+                DataColumn(label: Text("Tên Nông Sản")),
+                DataColumn(label: Text("Giá (Đồng/ 1kg)")),
+              ],
+              rows: [
+                DataRow(cells: [
+                  DataCell(Text(snapshot.value["name"].toString())),
+                  DataCell(Text(snapshot.value["price"].toString())),
+                ]),
+              ],
+            );
+
+          },
+        )
+       )
+      ]),
+
+
     );
   }
 }
