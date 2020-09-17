@@ -101,34 +101,9 @@ class marketHome extends State<market_rate> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-//      appBar: AppBar(
-////          leading: IconButton(
-////            icon: Icon(Icons.arrow_back),
-////            tooltip: "Navigation menu",
-////            onPressed: () {
-////              Navigator.pop(context);
-////            },
-////          ),
-//          backgroundColor: Colors.green[600], //lightGreen[600],
-//          title: Container(
-//            padding: EdgeInsets.fromLTRB(50, 0, 40, 0),
-//            child: Text(
-//              "GIÁ THỊ TRƯỜNG",
-//              style: new TextStyle(
-//                color: Colors.white,
-//                fontSize: 20.0,
-//                fontStyle: FontStyle.italic,
-//                fontFamily: "Merriweather",
-//              ),
-//            ),
-//          )),
+
       body: Column(children: <Widget>[
-//        new Image.asset(
-//          "assets/images/anhbanner.jpg",
-//          fit: BoxFit.fill,
-//          width: 380.0,
-//          height: 200.0,
-//        ),
+
         Container(
           padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
           child: new Row(
@@ -174,25 +149,6 @@ class marketHome extends State<market_rate> {
             ],
           ),
         ),
-
-//        Flexible(
-//          child:
-//          FirebaseAnimatedList(
-//              query: label,
-//              itemBuilder: (BuildContext context, DataSnapshot snapshot,
-//                  Animation<double> animation, int index) {
-//                return
-//                  DataTable(
-//                  columns: [
-//                    DataColumn(label: Text("Tên Nông Sản")),
-//                    DataColumn(label: Text("Giá (Đồng/ 1kg)")),
-//                  ],
-//                  rows: [
-//                  //  DataRow(cells: [DataCell(Text("")), DataCell(Text(""))]),
-//                  ],
-//                );
-//              }),
-//        ),
         Row(
           mainAxisAlignment:MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -206,8 +162,8 @@ class marketHome extends State<market_rate> {
         ),
         Flexible(
             child: FirebaseAnimatedList(
-          query: rateRef,
-          itemBuilder: (BuildContext context, DataSnapshot snapshot,
+            query: rateRef,
+            itemBuilder: (BuildContext context, DataSnapshot snapshot,
               Animation<double> animation, int index) {
             return Column(
               children: <Widget>[
@@ -233,19 +189,7 @@ class marketHome extends State<market_rate> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
 
             );
-//              DataTable(
-//              columnSpacing: 0.0,
-//              columns: [
-//                DataColumn(label: Text("")),
-//                DataColumn(label: Text("")),
-//              ],
-//              rows: [
-//                DataRow(cells: [
-//                  DataCell(Text(snapshot.value["name"].toString() )),
-//                  DataCell(Text(snapshot.value["price"].toString()+ " đồng/1kg")),
-//                ]),
-//              ],
-//            );
+
           },
         ))
       ]),

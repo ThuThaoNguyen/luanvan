@@ -57,6 +57,11 @@ flutter:
     - assets/images/LogoMakr_42xAgW.png
     - assets/images/LogoMakr_9MOIQ9.png
     - assets/images/anhbanner.jpg
+    - assets/images/bogai.png
+    - assets/images/chaybiala.jpg
+    - assets/images/daoon.jpg
+    - assets/images/domnau.jpg
+    - assets/images/vangla.jpg
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
