@@ -49,6 +49,8 @@ flutter:
   assets:
     - assets/labels.txt
     - assets/model_unquant.tflite
+    - assets/rice_graph.tflite
+    - assets/rice_labels.txt
     - assets/benhvp.jpg
     - assets/model.tflite
     - assets/images/image5.jpg

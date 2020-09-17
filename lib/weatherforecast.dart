@@ -40,27 +40,27 @@ class weather_forecast extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
-//          leading: IconButton(
-//            icon: Icon(Icons.arrow_back),
-//            tooltip: "Navigation menu",
-//            onPressed: () {
-//              Navigator.pop(context);
-//            },
-//          ),
-          backgroundColor: Colors.green[600], //lightGreen[600],
-          title: Container(
-            padding: EdgeInsets.fromLTRB(50, 0, 40, 0),
-            child: Text(
-              "DỰ BÁO THỜI TIẾT",
-              style: new TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontStyle: FontStyle.italic,
-                fontFamily: "Merriweather",
-              ),
-            ),
-          )),
+//      appBar: AppBar(
+////          leading: IconButton(
+////            icon: Icon(Icons.arrow_back),
+////            tooltip: "Navigation menu",
+////            onPressed: () {
+////              Navigator.pop(context);
+////            },
+////          ),
+//          backgroundColor: Colors.green[600], //lightGreen[600],
+//          title: Container(
+//            padding: EdgeInsets.fromLTRB(50, 0, 40, 0),
+//            child: Text(
+//              "DỰ BÁO THỜI TIẾT",
+//              style: new TextStyle(
+//                color: Colors.white,
+//                fontSize: 20.0,
+//                fontStyle: FontStyle.italic,
+//                fontFamily: "Merriweather",
+//              ),
+//            ),
+//          )),
 //      floatingActionButton: FloatingActionButton(
 //        backgroundColor: Colors.lightGreen,
 //        child: (IconButton(

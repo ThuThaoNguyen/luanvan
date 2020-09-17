@@ -10,52 +10,50 @@ import 'package:tflite_example/help_infor.dart';
 import 'marketrate.dart';
 import 'weatherforecast.dart';
 import 'login.dart';
+import 'diseableinfor.dart';
 //void main() => runApp(MyApp());
 
-class TutorialHome extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        home:
-            Scaffold(body: Center(child: MyImagePicker()))); // MyImagePicker()
-  }
-}
-
+//class TutorialHome extends StatelessWidget {
+//  @override
+//  Widget build(BuildContext context) {
+//    return MaterialApp(
+//        debugShowCheckedModeBanner: false,
+//        home: MyImagePicker()); // MyImagePicker()
+//  }
+//}
+@override
 class MyImagePicker extends StatefulWidget {
-  @override
+
   MyImagePickerState createState() => MyImagePickerState();
 }
 
-//@override
-//  Future navigateToLogin(context) async {
-//  Navigator.push(
-//      context, MaterialPageRoute(builder: (context) => login()));
-//}
-//@override
-//  Future navigateToWeatherForecast(context) async {
-//  Navigator.push(
-//      context, MaterialPageRoute(builder: (context) => weather_forecast()));
-//}
-//@override
-//Future navigateToHelpInfor(context) async {
-//  Navigator.push(
-//      context, MaterialPageRoute(builder: (context) => help_infor()));
-//}
 @override
 class MyImagePickerState extends State<MyImagePicker> {
-
-  TextStyle style = TextStyle(fontFamily: 'Montserrat');
+  TextStyle style =
+      TextStyle(fontFamily: 'Montserrat', fontSize: 18.0, color: Colors.white);
 
   File imageURI;
   String result;
   String path;
-
+  String kq;
+  bool bogai = false;
+  bool chaybiala = false;
+  bool daoon = false;
+  bool domnau = false;
+  bool khongbenh = false;
+  bool vangla = false;
+  Future toreturn() async {
+    setState(() {
+      imageURI = null;
+    });
+}
   Future getImageFromCamera() async {
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
 
     setState(() {
       imageURI = image;
       path = image.path;
+      classifyImage();
     });
   }
 
@@ -65,6 +63,7 @@ class MyImagePickerState extends State<MyImagePicker> {
     setState(() {
       imageURI = image;
       path = image.path;
+      classifyImage();
     });
   }
 
@@ -83,7 +82,17 @@ class MyImagePickerState extends State<MyImagePicker> {
         threshold: 0.2,
         asynch: true);
     setState(() {
-      result = output.toString();
+      result = output
+          .toString()
+          .replaceAll(", ", "\n")
+          .replaceAll("[{", "")
+          .replaceAll("}]", "");
+       bogai = result.contains("bogai");
+       chaybiala = result.contains("chaybiala");
+       daoon = result.contains("daoon");
+       domnau = result.contains("domnau");
+       khongbenh = result.contains("khongbenh");
+       vangla = result.contains("vangla");
     });
     Tflite.close();
   }
@@ -98,83 +107,94 @@ class MyImagePickerState extends State<MyImagePicker> {
   }
 
   @override
+  Future navigateToDiseableInfor(context) async => Navigator.push(
+      context, MaterialPageRoute(builder: (context) => MydiseaseInfor()));
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.search),
-          tooltip: "Navigation menu",
-          onPressed: null,
-        ),
-//        actions: <Widget>[
-//             IconButton(
-//                 icon: Icon(Icons.person, size: 30.0,color: Colors.white,),
-//                 onPressed: (){
-//                   navigateToLogin(context);
-//                 },
-//
-//          ),
-//        ],
-        backgroundColor: Colors.green[600], //lightGreen[600],
-//        leading: Container(
-////        padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
-//            margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
-//            child: Image.asset("assets/images/Logo2.png")),
-
-        title: TextField(
-          cursorColor: Colors.white,
-          decoration: InputDecoration(
-              border: InputBorder.none, hintText: 'Nhập tên bệnh hại'),
-          style: new TextStyle(
-            color: Colors.white,
-            fontSize: 20.0,
-            fontStyle: FontStyle.italic,
-            fontFamily: "Montserrat",
-          ),
-        ),
-      ),
-      body: Center(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              imageURI == null
-                  ? Text('Không có hình ảnh.',style: style,)
-                  : Image.file(imageURI,
-                      width: 300, height: 200, fit: BoxFit.cover),
-              Container(
-                  margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
-                  child: RaisedButton(
-                    onPressed: () => getImageFromCamera(),
-                    child: Text('Chọn hình ảnh từ camera.',style: style,),
-                    textColor: Colors.white,
-                    color: Colors.green[600],
-                    padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
-                  )),
-              Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: RaisedButton(
-                    onPressed: () => getImageFromGallery(),
-                    child: Text('Chọn hình ảnh từ bộ sưu tập.',style: style,),
-                    textColor: Colors.white,
-                    color: Colors.green[600],
-                    padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
-                  )),
-              Container(
-                  margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
-                  child: RaisedButton(
-                    onPressed: () {
-                      classifyImage();
-                    },
-                    child: Text('NHẬN DIỆN',style: style,),
-                    textColor: Colors.white,
-                    color: Colors.green[600],
-                    padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
-                  )),
-              result == null ? Text('Kết quả') : Text(result)
-            ]),
-      ),
-    );
+        // TODO: implement build
+//      resizeToAvoidBottomInset: false,imageURI == null
+       // backgroundColor: Colors.black12,
+        body: Center(
+            child: imageURI == null
+                ? SingleChildScrollView(
+                    child: Column(
+//            mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                        Container(
+                            margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
+                            child: RaisedButton(
+                              onPressed: () => getImageFromCamera(),
+                              child: Icon(Icons.camera_enhance,
+                                  color: Colors.white, size: 50.0),
+//                    textColor: Colors.white,
+                              color: Colors.green[600],
+                              padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
+                            )),
+                        Container(
+                            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            child: RaisedButton(
+                              onPressed: () => getImageFromGallery(),
+                              child: Icon(Icons.collections,
+                                  color: Colors.white, size: 50.0),
+//                    textColor: Colors.white,
+                              color: Colors.green[600],
+                              padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
+                            )),
+                      ]))
+                : Container(
+                    child: SingleChildScrollView(
+                        child: Column(children: <Widget>[
+                          Image.file(imageURI,
+                              width: 300, height: 200, fit: BoxFit.cover),
+                          result == null
+                              ? Container(
+                                  margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
+                                  child: Text('Kết quả', style: style),
+                                  color: Colors.green[600],
+                                  padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
+                                )
+                              : Container(
+                                  margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
+                                  child: Text(result, style: style),
+                                  color: Colors.green[600],
+                                  padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
+                                ),
+                          khongbenh == false
+                            ? Container(
+                              margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
+                              child: RaisedButton(
+                                onPressed: () {
+                                  navigateToDiseableInfor(context);
+                                },
+                                child: Text(
+                                  'XEM THÔNG TIN VỀ BỆNH',
+                                  style: style,
+                                ),
+                                textColor: Colors.white,
+                                color: Colors.green[600],
+                                padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
+                              ))
+                              :Text("")
+                        ]),
+                      )),
+                    ),
+        floatingActionButton: imageURI != null
+            ? FloatingActionButton(
+                backgroundColor: Colors.lightGreen,
+                child: (IconButton(
+                    icon: Icon(
+                  Icons.control_point,
+                  color: Colors.white,
+                  size: 30.0,
+                ))),
+                tooltip: "Add",
+                onPressed: (){
+                  toreturn();
+                }
+              )
+            : Text(""));
   }
 }
 //@override
@@ -185,6 +205,7 @@ class Myapp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
             body: Center(child: MyBottomBarDemo()))); // MyImagePicker()
   }
@@ -200,11 +221,10 @@ class _MyBottomBarDemoState extends State<MyBottomBarDemo> {
   PageController _pageController;
 
   List<Widget> tabPages = [
-    TutorialHome(),
+    MyImagePicker(),
     market_rate(),
     weather_forecast(),
     help_infor(),
-
   ];
   @override
   void initState() {
@@ -226,29 +246,37 @@ class _MyBottomBarDemoState extends State<MyBottomBarDemo> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-
-
-//        title: Center(
-//          child: Image.asset(
-//            "assets/images/LogoMakr_42xAgW.png",
-//            fit: BoxFit.fill,
-//            width: 30.0,
-//            height: 20.0,
-//          ),
-//        ),
-//        actions: <Widget>[
-//          IconButton(
-//            icon: Icon(
-//              Icons.person,
-//              size: 30.0,
-//              color: Colors.white,
-//            ),
-//            onPressed: () {
-//              navigateToLogin(context);
-//            },
-//          ),
-//        ],
-//
+      appBar: AppBar(
+        backgroundColor: Colors.green[600],
+        leading: IconButton(
+          icon: Icon(Icons.search),
+          tooltip: "Navigation menu",
+          onPressed: null,
+        ),
+        title: TextField(
+          cursorColor: Colors.white,
+          decoration: InputDecoration(
+              border: InputBorder.none, hintText: 'Nhập tên bệnh hại'),
+          style: new TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+            fontStyle: FontStyle.italic,
+            fontFamily: "Montserrat",
+          ),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.person,
+              size: 30.0,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              navigateToLogin(context);
+            },
+          ),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _pageIndex,
         onTap: onTabTapped,
@@ -256,9 +284,11 @@ class _MyBottomBarDemoState extends State<MyBottomBarDemo> {
         iconSize: 20.0,
         selectedItemColor: Colors.green[600],
         unselectedItemColor: Colors.grey,
-        showUnselectedLabels: false,
-        selectedLabelStyle: TextStyle(color: Colors.green[600],fontFamily: "Montserrat"),
-        unselectedLabelStyle: TextStyle(color: Colors.grey,fontFamily: "Montserrat"),
+        showUnselectedLabels: true,
+        selectedLabelStyle:
+            TextStyle(color: Colors.green[600], fontFamily: "Montserrat"),
+        unselectedLabelStyle:
+            TextStyle(color: Colors.grey, fontFamily: "Montserrat"),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: Icon(Icons.home), title: Text("Trang chủ")),
@@ -271,7 +301,6 @@ class _MyBottomBarDemoState extends State<MyBottomBarDemo> {
 //          BottomNavigationBarItem(
 //              icon: Icon(Icons.person), title: Text("Đăng nhập")),
         ],
-
       ),
       body: PageView(
         children: tabPages,

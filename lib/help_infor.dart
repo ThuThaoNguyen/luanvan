@@ -40,7 +40,8 @@ class help_infor extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      body: Column(children: <Widget>[
+      body:SingleChildScrollView(
+        child: Column(children: <Widget>[
         new Image.asset(
           "assets/images/anhbanner.jpg",
           fit: BoxFit.cover,
@@ -88,58 +89,9 @@ class help_infor extends StatelessWidget {
                   fontSize: 16,
 
                 ))),
-      ]),
+      ])),
 
-//      bottomNavigationBar: Container(
-//        decoration: myboxDecoration(),
-//        child: Row(
-//            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//            children: <Widget>[
-////
-//              IconButton(
-//                  icon: Icon(
-//                    Icons.home,
-//                    color: Colors.grey,
-//                  ),
-//                  color: Colors.green[600],
-//                  tooltip: "home",
-//                  iconSize: 30.0,
-//                  onPressed: () {
-//                    navigateToHome(context);
-//                  },),
-//
-//              IconButton(
-//                  icon: Icon(
-//                    Icons.show_chart,
-//                    color: Colors.grey,
-//                  ),
-//                  color: Colors.green[600],
-//                  tooltip: "Market Rate",
-//                  iconSize: 40.0,
-//                  onPressed: () {
-//                    navigateToMarketRate(context);
-//                  }),
-//              IconButton(
-//                  icon: Icon(
-//                    Icons.wb_sunny,
-//                    color: Colors.grey,
-//                  ),
-//                  color: Colors.green[600],
-//                  tooltip: "Weather Forecast",
-//                  iconSize: 40.0,
-//                  onPressed: () {
-//                    navigateToWeatherForecast(context);
-//                  }),
-//              IconButton(
-//                  icon: Icon(
-//                    Icons.info,
-//                    color: Colors.green[600],
-//                  ),
-//                  tooltip: "Infor",
-//                  iconSize: 40.0,
-//                  onPressed: null)
-//            ]),
-//      ),
+
     );
   }
 }

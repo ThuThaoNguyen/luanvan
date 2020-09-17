@@ -7,6 +7,7 @@ import 'login.dart';
 
 void main() {
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     home: MyhomePage(),
     //MyhomePage(),
   ));
@@ -21,7 +22,7 @@ class HomePage extends State<MyhomePage> {
   void initState() {
     super.initState();
     Future.delayed(
-      Duration(seconds: 3),
+      Duration(seconds: 1),
       () {
         Navigator.push(
           context,
@@ -36,9 +37,9 @@ class HomePage extends State<MyhomePage> {
   Future navigateToTuriolhome(context) async {
     Navigator.push(context, MaterialPageRoute(builder: (context) => Myapp()));
   }
-  @override
-  Future navigateToLogin(context) async =>
-      Navigator.push(context, MaterialPageRoute(builder: (context) => login()));
+//  @override
+//  Future navigateToLogin(context) async =>
+//      Navigator.push(context, MaterialPageRoute(builder: (context) => login()));
 
   TextStyle style = TextStyle(fontFamily: 'Montserrat');
 
@@ -59,31 +60,6 @@ class HomePage extends State<MyhomePage> {
                   navigateToTuriolhome(context);
                 },
               ),
-              Container(
-                  margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
-                  child: RaisedButton(
-                    onPressed: () {
-                      navigateToTuriolhome(context);
-                    },
-                    child: Text('Trang chủ',style:style),
-                    textColor: Colors.white,
-                    color: Colors.deepOrangeAccent,
-
-                    padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
-                  )),
-              Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: RaisedButton(
-                    onPressed: () {
-                      navigateToLogin(context);
-                    },
-                    child: Text('Đăng nhập',style: style,),
-                    textColor: Colors.white,
-                    color: Colors.deepOrangeAccent,
-
-                    padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
-
-                  )),
             ]),
       ),
     );

@@ -74,16 +74,18 @@ class marketHome extends State<market_rate> {
   List<MarketRate> market_rate = List();
   MarketRate rate;
   DatabaseReference rateRef;
+
   DatabaseReference label;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   void initState() {
+
     super.initState();
     rate = MarketRate("", "", "", "", "", "");
     final FirebaseDatabase database = FirebaseDatabase(app: app);
     rateRef = database.reference().child("market_rate");
     label = null;
-//    rateRef = FirebaseDatabase.instance.reference().child("market_rate");
+
   }
 
   @override
@@ -99,27 +101,27 @@ class marketHome extends State<market_rate> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
-//          leading: IconButton(
-//            icon: Icon(Icons.arrow_back),
-//            tooltip: "Navigation menu",
-//            onPressed: () {
-//              Navigator.pop(context);
-//            },
-//          ),
-          backgroundColor: Colors.green[600], //lightGreen[600],
-          title: Container(
-            padding: EdgeInsets.fromLTRB(50, 0, 40, 0),
-            child: Text(
-              "GIÁ THỊ TRƯỜNG",
-              style: new TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontStyle: FontStyle.italic,
-                fontFamily: "Merriweather",
-              ),
-            ),
-          )),
+//      appBar: AppBar(
+////          leading: IconButton(
+////            icon: Icon(Icons.arrow_back),
+////            tooltip: "Navigation menu",
+////            onPressed: () {
+////              Navigator.pop(context);
+////            },
+////          ),
+//          backgroundColor: Colors.green[600], //lightGreen[600],
+//          title: Container(
+//            padding: EdgeInsets.fromLTRB(50, 0, 40, 0),
+//            child: Text(
+//              "GIÁ THỊ TRƯỜNG",
+//              style: new TextStyle(
+//                color: Colors.white,
+//                fontSize: 20.0,
+//                fontStyle: FontStyle.italic,
+//                fontFamily: "Merriweather",
+//              ),
+//            ),
+//          )),
       body: Column(children: <Widget>[
 //        new Image.asset(
 //          "assets/images/anhbanner.jpg",
@@ -150,14 +152,14 @@ class marketHome extends State<market_rate> {
           ),
         ),
         Container(
-          padding: EdgeInsets.fromLTRB(50, 0, 20, 20),
+          padding: EdgeInsets.fromLTRB(65, 0, 35, 20),
           child: Row(
             children: <Widget>[
               Container(
                 color: Colors.white,
-                width: 230,
+                width: 200,
                 height: 38.0,
-                constraints: BoxConstraints(minWidth: 230.0, minHeight: 20.0),
+                constraints: BoxConstraints(minWidth: 200.0, minHeight: 20.0),
                 child: TextField(
                   // obscureText: true,
                   decoration: InputDecoration(

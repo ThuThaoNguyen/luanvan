@@ -15,6 +15,7 @@ class login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter login UI',
       theme: ThemeData(
         // This is the theme of your application.
@@ -97,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  height: 100.0,
+                  height: 60.0,
                   child: Image.asset(
                     "assets/images/LogoMakr_42xAgW.png",
                     fit: BoxFit.contain,
