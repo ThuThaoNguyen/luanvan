@@ -8,15 +8,15 @@ import 'dart:io';
 import 'package:tflite/tflite.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'marketrate.dart';
+import 'home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
-final FirebaseApp app = initializeApp(
-    options: FirebaseOptions(
-        googleAppID: "1:673866928334:android:448337214e83c7c60d409f",
-        apiKey: 'AIzaSyBPbOP8LrXQoQ3PkIEr06wmcAk_aW4Pyqc',
-        databaseURL: 'https://onrice-aac04.firebaseio.com'));
-
-FirebaseApp initializeApp({FirebaseOptions options}) {}
-
+//final FirebaseApp app = initializeApp(
+//    options: FirebaseOptions(
+//        googleAppID: "1:673866928334:android:448337214e83c7c60d409f",
+//        apiKey: 'AIzaSyBPbOP8LrXQoQ3PkIEr06wmcAk_aW4Pyqc',
+//        databaseURL: 'https://onrice-aac04.firebaseio.com'));
+//
+//FirebaseApp initializeApp({FirebaseOptions options}) {}
 
 class MydiseaseInfor extends StatefulWidget {
   @override
@@ -67,11 +67,14 @@ class disease_infor extends State<MydiseaseInfor> {
   @override
   void initState() {
     super.initState();
-    infor = DiseaseInfor("","","","","","","","");
+    infor = DiseaseInfor("", "", "", "", "", "", "", "");
     final FirebaseDatabase database = FirebaseDatabase(app: app);
     dbRef = database.reference().child("diseaseInfor");
   }
 
+  @override
+  Future navigateToHomePage(context) async =>
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Myapp()));
 //  List lists = List();
   @override
   Widget build(BuildContext context) {
@@ -81,13 +84,16 @@ class disease_infor extends State<MydiseaseInfor> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             tooltip: "Navigation menu",
-            onPressed: null,
+            onPressed: () {
+              navigateToHomePage(context);
+              color = Colors.white;
+            },
           ),
           backgroundColor: Colors.green[600], //lightGreen[600],
           title: Container(
             padding: EdgeInsets.fromLTRB(30, 0, 40, 0),
             child: Text(
-              "BỆNH VÀNG LÁ LÚA",
+              kq.toString().toUpperCase(),
               style: new TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
@@ -96,90 +102,123 @@ class disease_infor extends State<MydiseaseInfor> {
               ),
             ),
           )),
-      body:Column (
-       children:<Widget> [
-         Flexible(
-          child: FirebaseAnimatedList(
-              query: dbRef,
-              itemBuilder: (BuildContext context, DataSnapshot snapshot, Animation<double> animation, int index) {
-                return snapshot.value["name"] == "Bệnh cháy bìa lá"
-                  ? Column(
-                    children: <Widget>[
-                       new Image.asset("assets/images/"+snapshot.value["image"], fit: BoxFit.fill, width: 380.0, height: 160.0,),
-                       Center(
-                           child: Container(
-                               padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
-                                  child: Text("BIỂU HIỆN BỆNH",
-                                  style: new TextStyle(
-                                  color: Hexcolor("#FF9900"),
-                                  fontSize: 18.0,
-                                  fontFamily: "Merriweather",
-                                  fontWeight: FontWeight.bold),)),
-                       ),
-                       Center(
+      body: Column(children: <Widget>[
+        Flexible(
+            child: FirebaseAnimatedList(
+                query: dbRef,
+                itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                    Animation<double> animation, int index) {
+                  return snapshot.value["name"] == kq
+                      ? Column(children: <Widget>[
+                          new Image.asset(
+                            "assets/images/" + snapshot.value["image"],
+                            fit: BoxFit.fill,
+                            width: 380.0,
+                            height: 160.0,
+                          ),
+                          Center(
                             child: Container(
-                               padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
-                               child: Text(snapshot.value["expression"],
+                                padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                                child: Text(
+                                  "BIỂU HIỆN BỆNH",
                                   style: new TextStyle(
-                                  color: Hexcolor("#000000"),
-                                  fontSize: 18.0,
-                                  fontFamily: "Merriweather",))),
-                        ),
-                       Center(
+                                      color: Hexcolor("#FF9900"),
+                                      fontSize: 18.0,
+                                      fontFamily: "Merriweather",
+                                      fontWeight: FontWeight.bold),
+                                )),
+                          ),
+                          Center(
                             child: Container(
-                               padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
-                               child: Text("NGUYÊN NHÂN",
-                                  style: new TextStyle(
-                                  color: Hexcolor("#FF0000"),
-                                  fontSize: 18.0,
-                                  fontFamily: "Merriweather",
-                                  fontWeight: FontWeight.bold),)),
-                        ),
-                        Center(
-                            child: Container(
-                              padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
-                              child: Text(snapshot.value["reason"],
-                                  style: new TextStyle(
-                                  color: Hexcolor("#000000"),
-                                  fontSize: 18.0,
-                                  fontFamily: "Merriweather",),)),
-                         ),
-                         Center(
-                             child: Container(
-                                 padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
-                                 child: Text("CÁCH PHÒNG TRỊ",
-                                  style: new TextStyle(
-                                  color: Hexcolor("#006600"),
-                                  fontSize: 18.0,
-                                  fontFamily: "Merriweather",
-                                  fontWeight: FontWeight.bold),)),
-                         ),
-                         Center(
-                              child: Container(
-                                  padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
-                                  child: Text(snapshot.value["treatment"],
+                                padding: EdgeInsets.fromLTRB(10, 8, 10, 0),
+                                child: Text(snapshot.value["expression"].toString()
+                                    .replaceAll(".", ".\n"),
                                     style: new TextStyle(
+                                      color: Hexcolor("#000000"),
+                                      fontSize: 18.0,
+                                      fontFamily: "Merriweather",
+                                    ))),
+                          ),
+                          Center(
+                            child: Container(
+                                padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                                child: Text(
+                                  "NGUYÊN NHÂN",
+                                  style: new TextStyle(
+                                      color: Hexcolor("#FF0000"),
+                                      fontSize: 18.0,
+                                      fontFamily: "Merriweather",
+                                      fontWeight: FontWeight.bold),
+                                )),
+                          ),
+                          Center(
+                            child: Container(
+                                padding: EdgeInsets.fromLTRB(10, 8, 10, 0),
+                                child: Text(
+                                  snapshot.value["reason"].toString()
+                                      .replaceAll(".", ".\n"),
+                                  style: new TextStyle(
                                     color: Hexcolor("#000000"),
                                     fontSize: 18.0,
-                                    fontFamily: "Merriweather",),)),
-                         ),
-                 ])
-                :Text("");
-                }
-              )
-           )
-       ]
-      ),
+                                    fontFamily: "Merriweather",
+                                  ),
+                                )),
+                          ),
+                          Center(
+                            child: Container(
+                                padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                                child: Text(
+                                  "CÁCH PHÒNG TRỊ",
+                                  style: new TextStyle(
+                                      color: Hexcolor("#006600"),
+                                      fontSize: 18.0,
+                                      fontFamily: "Merriweather",
+                                      fontWeight: FontWeight.bold),
+                                )),
+                          ),
+                          Center(
+                            child: Container(
+                                padding: EdgeInsets.fromLTRB(10, 8, 10, 0),
+                                child: Text(
+                                  snapshot.value["treatment"].toString()
+                                      .replaceAll(".", ".\n"),
+                                  style: new TextStyle(
+                                    color: Hexcolor("#000000"),
+                                    fontSize: 18.0,
+                                    fontFamily: "Merriweather",
+                                  ),
+                                )),
+                          ),
+                          Center(
+                            child: Container(
+                                padding: EdgeInsets.fromLTRB(10, 8, 10, 0),
+                                child: Text("Thuốc: "+
+                                  snapshot.value["medicine"].toString()
+                                      .replaceAll(".", ".\n"),
+                                  style: new TextStyle(
+                                    color: Hexcolor("#000000"),
+                                    fontSize: 18.0,
+                                    fontFamily: "Merriweather",
+                                  ),
+                                )),
+                          ),
+                        ])
+                      : Text("");
+                }))
+      ]),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.lightGreen,
         child: (IconButton(
             icon: Icon(
-          Icons.camera_alt,
+          Icons.control_point,
           color: Colors.white,
           size: 30.0,
         ))),
         tooltip: "Add",
-        onPressed: null,
+        onPressed: () {
+          navigateToHomePage(context);
+          color = Colors.white;
+        },
       ),
     );
   }

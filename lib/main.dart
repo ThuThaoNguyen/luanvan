@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'dart:async';
 import 'login.dart';
+import 'finddinfor.dart';
 
 
 void main() {
@@ -58,6 +59,7 @@ class HomePage extends State<MyhomePage> {
                 tooltip: "Navigation menu",
                 onPressed: () {
                   navigateToTuriolhome(context);
+                  color = Colors.white;
                 },
               ),
             ]),

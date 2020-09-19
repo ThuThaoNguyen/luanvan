@@ -11,6 +11,7 @@ import 'marketrate.dart';
 import 'weatherforecast.dart';
 import 'login.dart';
 import 'diseableinfor.dart';
+import 'finddinfor.dart';
 //void main() => runApp(MyApp());
 
 //class TutorialHome extends StatelessWidget {
@@ -21,6 +22,8 @@ import 'diseableinfor.dart';
 //        home: MyImagePicker()); // MyImagePicker()
 //  }
 //}
+var kq;
+Color color = Colors.white;
 @override
 class MyImagePicker extends StatefulWidget {
 
@@ -30,12 +33,12 @@ class MyImagePicker extends StatefulWidget {
 @override
 class MyImagePickerState extends State<MyImagePicker> {
   TextStyle style =
-      TextStyle(fontFamily: 'Montserrat', fontSize: 18.0, color: Colors.white);
+      TextStyle(fontFamily: 'Montserrat', fontSize: 18.0,color: Colors.black);
 
   File imageURI;
   String result;
   String path;
-  String kq;
+
   bool bogai = false;
   bool chaybiala = false;
   bool daoon = false;
@@ -45,14 +48,23 @@ class MyImagePickerState extends State<MyImagePicker> {
   Future toreturn() async {
     setState(() {
       imageURI = null;
+      color = Colors.white;
     });
 }
+  Future changeColor() async {
+    setState(() {
+      color = Colors.black87;
+    });
+  }
   Future getImageFromCamera() async {
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
 
     setState(() {
       imageURI = image;
       path = image.path;
+      if( imageURI != null){
+        changeColor();
+      }
       classifyImage();
     });
   }
@@ -63,6 +75,9 @@ class MyImagePickerState extends State<MyImagePicker> {
     setState(() {
       imageURI = image;
       path = image.path;
+      if( imageURI != null){
+        changeColor();
+      }
       classifyImage();
     });
   }
@@ -93,6 +108,21 @@ class MyImagePickerState extends State<MyImagePicker> {
        domnau = result.contains("domnau");
        khongbenh = result.contains("khongbenh");
        vangla = result.contains("vangla");
+       if (bogai){
+         kq = "Bọ gai";
+       }
+       else if (chaybiala){
+         kq = "Bệnh cháy bìa lá";
+       }
+       else if(daoon){
+         kq = "Bệnh đạo ôn";
+       }
+       else if(domnau){
+         kq = "Bệnh đốm nâu";
+       }
+       else {
+         kq = "Bệnh vàng lá";
+       }
     });
     Tflite.close();
   }
@@ -115,7 +145,7 @@ class MyImagePickerState extends State<MyImagePicker> {
     return Scaffold(
         // TODO: implement build
 //      resizeToAvoidBottomInset: false,imageURI == null
-       // backgroundColor: Colors.black12,
+        backgroundColor: color,
         body: Center(
             child: imageURI == null
                 ? SingleChildScrollView(
@@ -152,13 +182,13 @@ class MyImagePickerState extends State<MyImagePicker> {
                               ? Container(
                                   margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
                                   child: Text('Kết quả', style: style),
-                                  color: Colors.green[600],
+                                  color: Colors.grey,
                                   padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
                                 )
                               : Container(
                                   margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
                                   child: Text(result, style: style),
-                                  color: Colors.green[600],
+                                  color: Colors.grey,
                                   padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
                                 ),
                           khongbenh == false
@@ -170,11 +200,15 @@ class MyImagePickerState extends State<MyImagePicker> {
                                 },
                                 child: Text(
                                   'XEM THÔNG TIN VỀ BỆNH',
-                                  style: style,
+                                  style:TextStyle(fontFamily: 'Montserrat', fontSize: 18.0)
                                 ),
                                 textColor: Colors.white,
                                 color: Colors.green[600],
                                 padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+
+                                ),
                               ))
                               :Text("")
                         ]),
@@ -220,21 +254,35 @@ class _MyBottomBarDemoState extends State<MyBottomBarDemo> {
   int _pageIndex = 0;
   PageController _pageController;
 
-  List<Widget> tabPages = [
+  List<Widget> tabPages1 = [
     MyImagePicker(),
     market_rate(),
     weather_forecast(),
     help_infor(),
+
   ];
+  List<Widget> tabPages2 = [
+    FindInfor(),
+    FindInfor(),
+    FindInfor(),
+    FindInfor(),
+
+  ];
+  List<Widget> tabPages;
+  TextEditingController keyword;
   @override
   void initState() {
     super.initState();
+
     _pageController = PageController(initialPage: _pageIndex);
+    tabPages = tabPages1;
+    keyword = TextEditingController();
   }
 
   @override
   void dispose() {
     _pageController.dispose();
+    keyword.dispose();
     super.dispose();
   }
 
@@ -242,6 +290,17 @@ class _MyBottomBarDemoState extends State<MyBottomBarDemo> {
   Future navigateToLogin(context) async =>
       Navigator.push(context, MaterialPageRoute(builder: (context) => login()));
 
+  @override
+  Future navigateTofindInfor(){
+    setState(() {
+      tabPages = tabPages2;
+  });
+  }
+  Future returnfromfindInfor(){
+    setState(() {
+      tabPages = tabPages1;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -255,6 +314,7 @@ class _MyBottomBarDemoState extends State<MyBottomBarDemo> {
         ),
         title: TextField(
           cursorColor: Colors.white,
+          controller: keyword,
           decoration: InputDecoration(
               border: InputBorder.none, hintText: 'Nhập tên bệnh hại'),
           style: new TextStyle(
@@ -263,6 +323,12 @@ class _MyBottomBarDemoState extends State<MyBottomBarDemo> {
             fontStyle: FontStyle.italic,
             fontFamily: "Montserrat",
           ),
+          onTap: ()=> { navigateTofindInfor()},
+
+          onSubmitted:(String value) async {
+
+          } ,
+
         ),
         actions: <Widget>[
           IconButton(
@@ -312,12 +378,16 @@ class _MyBottomBarDemoState extends State<MyBottomBarDemo> {
 
   void onPageChanged(int page) {
     setState(() {
+      returnfromfindInfor();
       this._pageIndex = page;
+
     });
   }
 
   void onTabTapped(int index) {
+    returnfromfindInfor();
     this._pageController.animateToPage(index,
         duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+
   }
 }
