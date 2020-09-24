@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,8 @@ import 'weatherforecast.dart';
 import 'login.dart';
 import 'diseableinfor.dart';
 import 'finddinfor.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 //void main() => runApp(MyApp());
 
 //class TutorialHome extends StatelessWidget {
@@ -23,6 +26,7 @@ import 'finddinfor.dart';
 //  }
 //}
 var kq;
+var tukhoa;
 Color color = Colors.white;
 @override
 class MyImagePicker extends StatefulWidget {
@@ -253,6 +257,10 @@ class MyBottomBarDemo extends StatefulWidget {
 class _MyBottomBarDemoState extends State<MyBottomBarDemo> {
   int _pageIndex = 0;
   PageController _pageController;
+  List<DiseaseInfor> diseaseinfor = List();
+  DiseaseInfor infor;
+  DatabaseReference dbRef;
+
 
   List<Widget> tabPages1 = [
     MyImagePicker(),
@@ -269,14 +277,14 @@ class _MyBottomBarDemoState extends State<MyBottomBarDemo> {
 
   ];
   List<Widget> tabPages;
-  TextEditingController keyword;
+  final keyword = TextEditingController();
   @override
   void initState() {
     super.initState();
 
     _pageController = PageController(initialPage: _pageIndex);
     tabPages = tabPages1;
-    keyword = TextEditingController();
+
   }
 
   @override
@@ -301,6 +309,13 @@ class _MyBottomBarDemoState extends State<MyBottomBarDemo> {
       tabPages = tabPages1;
     });
   }
+
+//  Future tapsearch(){
+//    setState(() {
+//      name = [];
+//    });
+//  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -323,13 +338,16 @@ class _MyBottomBarDemoState extends State<MyBottomBarDemo> {
             fontStyle: FontStyle.italic,
             fontFamily: "Montserrat",
           ),
-          onTap: ()=> { navigateTofindInfor()},
-
-          onSubmitted:(String value) async {
-
-          } ,
-
-        ),
+            onTap: ()=> {
+            keyword.text = "",
+              returnfromfindInfor()
+            },
+             onSubmitted: (String st){
+             name = [];
+             tukhoa = st;
+             navigateTofindInfor();
+            }
+            ),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -343,6 +361,7 @@ class _MyBottomBarDemoState extends State<MyBottomBarDemo> {
           ),
         ],
       ),
+
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _pageIndex,
         onTap: onTabTapped,
@@ -368,7 +387,8 @@ class _MyBottomBarDemoState extends State<MyBottomBarDemo> {
 //              icon: Icon(Icons.person), title: Text("Đăng nhập")),
         ],
       ),
-      body: PageView(
+      body:
+      PageView(
         children: tabPages,
         onPageChanged: onPageChanged,
         controller: _pageController,

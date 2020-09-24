@@ -127,14 +127,14 @@ class marketHome extends State<market_rate> {
           ),
         ),
         Container(
-          padding: EdgeInsets.fromLTRB(65, 0, 35, 20),
+          padding: EdgeInsets.fromLTRB(45, 0, 35, 20),
           child: Row(
             children: <Widget>[
               Container(
                 color: Colors.white,
-                width: 200,
+                width: 160,
                 height: 38.0,
-                constraints: BoxConstraints(minWidth: 200.0, minHeight: 20.0),
+                constraints: BoxConstraints(minWidth: 180.0, minHeight: 20.0),
                 child: TextField(
                   // obscureText: true,
                   decoration: InputDecoration(
@@ -167,7 +167,6 @@ class marketHome extends State<market_rate> {
               Animation<double> animation, int index) {
             return Column(
               children: <Widget>[
-
                 Padding(
                   padding:EdgeInsets.symmetric(horizontal:10.0),
                   child:Container(

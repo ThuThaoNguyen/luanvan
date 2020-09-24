@@ -9,6 +9,7 @@ import 'package:tflite/tflite.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'marketrate.dart';
 import 'home_page.dart';
+import 'finddinfor.dart';
 import 'package:firebase_core/firebase_core.dart';
 //final FirebaseApp app = initializeApp(
 //    options: FirebaseOptions(
@@ -90,9 +91,10 @@ class disease_infor extends State<MydiseaseInfor> {
             },
           ),
           backgroundColor: Colors.green[600], //lightGreen[600],
-          title: Container(
-            padding: EdgeInsets.fromLTRB(30, 0, 40, 0),
-            child: Text(
+          title: Center(
+//            padding: EdgeInsets.fromLTRB(30, 0, 40, 0),
+            child: kq != null
+              ?Text(
               kq.toString().toUpperCase(),
               style: new TextStyle(
                 color: Colors.white,
@@ -100,7 +102,25 @@ class disease_infor extends State<MydiseaseInfor> {
                 // fontStyle: FontStyle.italic,
                 fontFamily: "Merriweather",
               ),
-            ),
+            )
+            :(kq1 != null
+              ?Text(
+              kq1.toString().toUpperCase(),
+              style: new TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                // fontStyle: FontStyle.italic,
+                fontFamily: "Merriweather",
+              ),
+            )
+            :Text("Không tìm thấy thông tin",
+              style: new TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                // fontStyle: FontStyle.italic,
+                fontFamily: "Merriweather",
+              ),
+            ))
           )),
       body: Column(children: <Widget>[
         Flexible(
@@ -108,7 +128,7 @@ class disease_infor extends State<MydiseaseInfor> {
                 query: dbRef,
                 itemBuilder: (BuildContext context, DataSnapshot snapshot,
                     Animation<double> animation, int index) {
-                  return snapshot.value["name"] == kq
+                  return snapshot.value["name"] == kq || snapshot.value["name"] == kq1
                       ? Column(children: <Widget>[
                           new Image.asset(
                             "assets/images/" + snapshot.value["image"],
