@@ -176,7 +176,8 @@ class MyImagePickerState extends State<MyImagePicker> {
                               color: Colors.green[600],
                               padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
                             )),
-                      ]))
+                      ])
+            )
                 : Container(
                     child: SingleChildScrollView(
                         child: Column(children: <Widget>[
@@ -216,7 +217,8 @@ class MyImagePickerState extends State<MyImagePicker> {
                               ))
                               :Text("")
                         ]),
-                      )),
+                      )
+            ),
                     ),
         floatingActionButton: imageURI != null
             ? FloatingActionButton(
