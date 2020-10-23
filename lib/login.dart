@@ -8,8 +8,9 @@ import 'package:tflite/tflite.dart';
 import 'package:tflite_example/help_infor.dart';
 import 'marketrate.dart';
 import 'weatherforecast.dart';
-
-
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'admin/home_admin.dart';
 class login extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -46,15 +47,74 @@ class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
-
+class User{
+  String key;
+  String Id;
+  String Id_type;
+  String email;
+  String password;
+  String username;
+  User(this.Id, this.Id_type, this.email, this.password, this.username);
+  User.fromSnapshot(DataSnapshot snapshot)
+      : key = snapshot.key,
+        Id = snapshot.value['Id'],
+        Id_type = snapshot.value['Id_type'],
+        email = snapshot.value['email'],
+        password = snapshot.value['password'],
+        username = snapshot.value['username'];
+   toJson(){
+      return {
+      "Id": Id,
+      "Id_type": Id_type,
+      "email": email,
+      "password": password,
+      "username": username
+    };
+  }
+}
 class _MyHomePageState extends State<MyHomePage> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+  String username ;
+  String password ;
+  String error =" ";
+
+  List<String> username_ar = List();
+  List<String> password_ar = List();
+  List<User> user = List();
+  User infor;
+  DatabaseReference dbRef;
+  @override
+  Future navigateToTuriolhomeAdmin(context) async {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Myadmin()));
+  }
+  @override
+  void initState() {
+    super.initState();
+    infor = User("", "", "", "", "");
+    final FirebaseDatabase database = FirebaseDatabase(app: app);
+    dbRef = database.reference().child("user");
+  }
+  void login(){
+    setState(() {
+      for (int i=0;i<username_ar.length;i++){
+        if(username_ar[i]==username&&password_ar[i]==password){
+          navigateToTuriolhomeAdmin(context);
+        }
+        else error ="Tên đăng nhập hoặc mật khẩu không đúng" ;
+      }
+    }
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
 
     final userField = TextField(
       obscureText: false,
+      onTap: (){error = " ";},
+      onChanged: (str){
+        username = str;
+      },
       style: style,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -64,6 +124,10 @@ class _MyHomePageState extends State<MyHomePage> {
     );
     final passwordField = TextField(
       obscureText: true,
+      onTap: (){error = " ";},
+      onChanged: (str){
+        password = str;
+      },
       style: style,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -78,8 +142,10 @@ class _MyHomePageState extends State<MyHomePage> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {},
-        child: Text("Login",
+        onPressed: () {
+          login();
+        },
+        child: Text("Đăng nhập",
             textAlign: TextAlign.center,
             style: style.copyWith(
                 color: Colors.white, fontWeight: FontWeight.bold)),
@@ -115,6 +181,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   height: 15.0,
                 ),
+//                Text(error),
+                Flexible(
+                    child: FirebaseAnimatedList(
+                        query: dbRef,
+                        itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                            Animation<double> animation, int index) {
+                          username_ar.add(snapshot.value['username']);
+                          password_ar.add(snapshot.value['password']);
+                          return Center(child: Text(error,style: TextStyle(color: Colors.red),));
+                        })),
               ],
             ),
           ),

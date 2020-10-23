@@ -380,7 +380,7 @@ class _MyBottomBarDemoState extends State<MyBottomBarDemo> {
           BottomNavigationBarItem(
               icon: Icon(Icons.home), title: Text("Trang chủ")),
           BottomNavigationBarItem(
-              icon: Icon(Icons.show_chart), title: Text("Giá")),
+              icon: Icon(Icons.trending_up), title: Text("Giá thị trường")),
           BottomNavigationBarItem(
               icon: Icon(Icons.cloud_queue), title: Text("Thời tiết")),
           BottomNavigationBarItem(
