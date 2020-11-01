@@ -15,6 +15,7 @@ import 'diseableinfor.dart';
 import 'finddinfor.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'package:camera/camera.dart';
 //void main() => runApp(MyApp());
 
 //class TutorialHome extends StatelessWidget {
@@ -57,7 +58,7 @@ class MyImagePickerState extends State<MyImagePicker> {
 }
   Future changeColor() async {
     setState(() {
-      color = Colors.black87;
+      color = Colors.white;
     });
   }
   Future getImageFromCamera() async {
@@ -88,8 +89,8 @@ class MyImagePickerState extends State<MyImagePicker> {
 
   Future classifyImage() async {
     await Tflite.loadModel(
-        model: "assets/model.tflite",
-        labels: "assets/labels.txt",
+        model: "assets/model_unquantTF.tflite",
+        labels: "assets/labelsTF.txt",
         numThreads: 1,
         isAsset: true,
         useGpuDelegate: false);
@@ -130,12 +131,11 @@ class MyImagePickerState extends State<MyImagePicker> {
     });
     Tflite.close();
   }
-
   BoxDecoration myboxDecoration() {
     return BoxDecoration(
       border: Border.all(
-        width: 1, //
-        color: Colors.green[600], //                  <--- border width here
+        width: 2, //
+        color: Colors.grey, //                  <--- border width here
       ),
     );
   }
@@ -181,21 +181,31 @@ class MyImagePickerState extends State<MyImagePicker> {
                 : Container(
                     child: SingleChildScrollView(
                         child: Column(children: <Widget>[
-                          Image.file(imageURI,
-                              width: 300, height: 200, fit: BoxFit.cover),
-                          result == null
-                              ? Container(
-                                  margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
-                                  child: Text('Kết quả', style: style),
-                                  color: Colors.grey,
-                                  padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
-                                )
-                              : Container(
-                                  margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
-                                  child: Text(result, style: style),
-                                  color: Colors.grey,
-                                  padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
-                                ),
+                           Container(decoration: myboxDecoration(),
+
+                           child: Column(
+                             children: <Widget>[
+                               Container(
+                                 padding: EdgeInsets.all(10.0),
+                                 child:Image.file(imageURI,
+                                     width: 300, height: 200, fit: BoxFit.cover),
+                               ),
+                               result == null
+                                   ? Container(
+                                 margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
+                                 child: Text('Kết quả', style: style),
+                                 color: Colors.grey,
+                                 padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
+                               )
+                                   : Container(
+                                 margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
+                                 child: Text(result, style: style),
+//                                  color: Colors.grey,
+                                 padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
+                               ),
+                             ],
+                           )
+                         ),
                           khongbenh == false
                             ? Container(
                               margin: EdgeInsets.fromLTRB(0, 30, 0, 20),

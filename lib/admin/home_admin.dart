@@ -10,13 +10,13 @@ import 'package:hexcolor/hexcolor.dart';
 import 'marketrate_admin.dart';
 import 'user_admin.dart';
 import 'diseaseinfor_admin.dart';
+
 class Myadmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Scaffold(
-            body: Center(child: MyadminDemo()))); // MyImagePicker()
+        home: Scaffold(body: Center(child: MyadminDemo()))); // MyImagePicker()
   }
 }
 
@@ -26,7 +26,6 @@ class MyadminDemo extends StatefulWidget {
 }
 
 class _MyadminState extends State<MyadminDemo> {
-
   int _pageIndex = 0;
   PageController _pageController;
   List<Widget> tabPages = [
@@ -41,8 +40,6 @@ class _MyadminState extends State<MyadminDemo> {
     super.initState();
 
     _pageController = PageController(initialPage: _pageIndex);
-
-
   }
 
   @override
@@ -51,6 +48,7 @@ class _MyadminState extends State<MyadminDemo> {
 
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -60,27 +58,28 @@ class _MyadminState extends State<MyadminDemo> {
         leading: Container(
           padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
           child: Image.asset(
-          "assets/images/LogoMakr_9MOIQ9_-_Copy-removebg-preview.png",
-        ), ),
-        title:Center(child:Text('OnRice',
-          style: new TextStyle(
-            color: Colors.white,
-            fontSize: 30.0,
-            fontFamily: "Montserrat",
+            "assets/images/LogoMakr_9MOIQ9_-_Copy-removebg-preview.png",
           ),
-        ),),
+        ),
+        title: Center(
+          child: Text(
+            'OnRice',
+            style: new TextStyle(
+              color: Colors.white,
+              fontSize: 30.0,
+              fontFamily: "Montserrat",
+            ),
+          ),
+        ),
         actions: <Widget>[
-         IconButton(
-           icon: Icon(
-             Icons.person,
-             size: 30.0,
-             color: Colors.white,
-           ),
-           onPressed: () {
-
-           },
-         ),
-
+          IconButton(
+            icon: Icon(
+              Icons.person,
+              size: 30.0,
+              color: Colors.white,
+            ),
+            onPressed: () {},
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -92,30 +91,32 @@ class _MyadminState extends State<MyadminDemo> {
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
         selectedLabelStyle:
-        TextStyle(color: Colors.green[600], fontFamily: "Montserrat"),
+            TextStyle(color: Colors.green[600], fontFamily: "Montserrat"),
         unselectedLabelStyle:
-        TextStyle(color: Colors.grey, fontFamily: "Montserrat"),
+            TextStyle(color: Colors.grey, fontFamily: "Montserrat"),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: Icon(Icons.home), title: Text("Trang chủ")),
           BottomNavigationBarItem(
-              icon: Icon(Icons.supervised_user_circle), title: Text("Người dùng")),
+              icon: Icon(Icons.supervised_user_circle),
+              title: Text("Người dùng")),
           BottomNavigationBarItem(
               icon: Icon(Icons.trending_up), title: Text("Giá thị trường")),
           BottomNavigationBarItem(
-              icon: Icon(Icons.insert_drive_file), title: Text("Thông tin bệnh")),
+              icon: Icon(Icons.insert_drive_file),
+              title: Text("Thông tin bệnh")),
 //          BottomNavigationBarItem(
 //              icon: Icon(Icons.person), title: Text("Đăng nhập")),
         ],
       ),
-      body:
-      PageView(
+      body: PageView(
         children: tabPages,
         onPageChanged: onPageChanged,
         controller: _pageController,
       ),
     );
   }
+
   void onPageChanged(int page) {
     setState(() {
       this._pageIndex = page;
@@ -123,38 +124,63 @@ class _MyadminState extends State<MyadminDemo> {
   }
 
   void onTabTapped(int index) {
-
     this._pageController.animateToPage(index,
         duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
-
   }
 }
+
 class MyhomeAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Scaffold(
-            body: Center(child: HomeAdmin()))); // MyImagePicker()
+        home: Scaffold(body: Center(child: HomeAdmin()))); // MyImagePicker()
   }
 }
-class HomeAdmin extends StatefulWidget{
-  @override
 
+class HomeAdmin extends StatefulWidget {
+  @override
   Home createState() => new Home();
 }
-class Home extends State<HomeAdmin>{
 
+class Home extends State<HomeAdmin> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
 
     return Scaffold(
-
-    );
+        body: Center(
+            child: SingleChildScrollView(
+                child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Container(
+          margin: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+          decoration: BoxDecoration(
+              color: Colors.green[600],
+              border: Border.all(color: Colors.green, width: 1.0)),
+          height: 100.0,
+          width: 100.0,
+          child: Column(
+            children: <Widget>[
+              Center(
+                child: Text('30'),
+              ),
+              Center(
+                child: Text('User'),
+              )
+            ],
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+          decoration: BoxDecoration(
+              color: Colors.green[600],
+              border: Border.all(color: Colors.green, width: 1.0)),
+          height: 100.0,
+          width: 100.0,
+        )
+      ],
+    ))));
   }
-
-
-
 }
-
