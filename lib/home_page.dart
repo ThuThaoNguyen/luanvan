@@ -15,7 +15,12 @@ import 'diseableinfor.dart';
 import 'finddinfor.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'loadVideo.dart';
+import 'package:tflite_example/widgets/home.dart';
 import 'package:camera/camera.dart';
+import 'package:firebase_storage/firebase_storage.dart'; // For File Upload To Firestore
+import 'package:path/path.dart' as Path;
+
 //void main() => runApp(MyApp());
 
 //class TutorialHome extends StatelessWidget {
@@ -67,11 +72,12 @@ class MyImagePickerState extends State<MyImagePicker> {
     setState(() {
       imageURI = image;
       path = image.path;
-      if( imageURI != null){
-        changeColor();
-      }
+//      if( imageURI != null){
+//        uploadFile();
+//      }
       classifyImage();
     });
+
   }
 
   Future getImageFromGallery() async {
@@ -80,9 +86,9 @@ class MyImagePickerState extends State<MyImagePicker> {
     setState(() {
       imageURI = image;
       path = image.path;
-      if( imageURI != null){
-        changeColor();
-      }
+//      if( imageURI != null){
+//        uploadFile();
+//      }
       classifyImage();
     });
   }
@@ -115,19 +121,24 @@ class MyImagePickerState extends State<MyImagePicker> {
        vangla = result.contains("vangla");
        if (bogai){
          kq = "Bọ gai";
+         uploadFile('bogai');
        }
        else if (chaybiala){
          kq = "Bệnh cháy bìa lá";
+         uploadFile('chaybiala');
        }
        else if(daoon){
          kq = "Bệnh đạo ôn";
+         uploadFile('daoon');
        }
        else if(domnau){
          kq = "Bệnh đốm nâu";
        }
        else {
          kq = "Bệnh vàng lá";
+         uploadFile('vangla');
        }
+
     });
     Tflite.close();
   }
@@ -144,6 +155,34 @@ class MyImagePickerState extends State<MyImagePicker> {
   Future navigateToDiseableInfor(context) async => Navigator.push(
       context, MaterialPageRoute(builder: (context) => MydiseaseInfor()));
 
+
+  @override
+  Future navigateToVideo(context,x) async =>
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Home(camera: x)));
+  loadVideo() async {
+    // Ensure that plugin services are initialized so that `availableCameras()`
+    // can be called before `runApp()`
+    WidgetsFlutterBinding.ensureInitialized();
+
+    // Obtain a list of the available cameras on the device.
+    final cameras = await availableCameras();
+
+    // Get a specific camera from the list of available cameras.
+    final firstCamera = cameras.first;
+    setState(() {
+      navigateToVideo(context,firstCamera);
+    });
+  }
+  
+  @override 
+  Future uploadFile(String str) async {
+
+    if(imageURI != null) {
+      StorageReference storageReference = FirebaseStorage.instance.ref().child('$str/${Path.basename(imageURI.path)}');
+      StorageUploadTask uploadTask = storageReference.putFile(imageURI);
+      await uploadTask.onComplete;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -167,7 +206,7 @@ class MyImagePickerState extends State<MyImagePicker> {
                               padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
                             )),
                         Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
                             child: RaisedButton(
                               onPressed: () => getImageFromGallery(),
                               child: Icon(Icons.collections,
@@ -176,12 +215,23 @@ class MyImagePickerState extends State<MyImagePicker> {
                               color: Colors.green[600],
                               padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
                             )),
+                          Container(
+                              margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              child: RaisedButton(
+                                onPressed: () => {loadVideo()},
+                                child: Icon(Icons.videocam,
+                                    color: Colors.white, size: 50.0),
+//                    textColor: Colors.white,
+                                color: Colors.green[600],
+                                padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
+                              )),
                       ])
             )
                 : Container(
                     child: SingleChildScrollView(
                         child: Column(children: <Widget>[
-                           Container(decoration: myboxDecoration(),
+                           Container(
+                               decoration: myboxDecoration(),
 
                            child: Column(
                              children: <Widget>[

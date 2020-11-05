@@ -35,7 +35,7 @@ packages:
       name: camera
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.3+2"
+    version: "0.5.8+11"
   charcode:
     dependency: transitive
     description:
@@ -145,6 +145,13 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_database
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.6"
+  firebase_storage:
+    dependency: "direct main"
+    description:
+      name: firebase_storage
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.6"
