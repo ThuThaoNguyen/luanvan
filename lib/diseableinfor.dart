@@ -88,10 +88,12 @@ class disease_infor extends State<MydiseaseInfor> {
             onPressed: () {
               navigateToHomePage(context);
               color = Colors.white;
+              kq = null;
+              kq1 = null;
             },
           ),
           backgroundColor: Colors.green[600], //lightGreen[600],
-          title: Center(
+          title: Container(
 //            padding: EdgeInsets.fromLTRB(30, 0, 40, 0),
             child: kq != null
               ?Text(
@@ -121,8 +123,12 @@ class disease_infor extends State<MydiseaseInfor> {
                 fontFamily: "Merriweather",
               ),
             ))
-          )),
+
+          ),
+          centerTitle:true ,
+      ),
       body: Column(children: <Widget>[
+
         Flexible(
             child: FirebaseAnimatedList(
                 query: dbRef,
@@ -132,9 +138,9 @@ class disease_infor extends State<MydiseaseInfor> {
                       ? Column(children: <Widget>[
                           new Image.asset(
                             "assets/images/" + snapshot.value["image"],
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                             width: 380.0,
-                            height: 160.0,
+                            height: 180.0,
                           ),
                           Center(
                             child: Container(
@@ -238,6 +244,8 @@ class disease_infor extends State<MydiseaseInfor> {
         onPressed: () {
           navigateToHomePage(context);
           color = Colors.white;
+          kq = null;
+          kq1 = null;
         },
       ),
     );

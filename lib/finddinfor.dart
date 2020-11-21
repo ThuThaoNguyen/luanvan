@@ -18,8 +18,7 @@ class FindInfor extends StatefulWidget {
   @override
   finddesease createState() => finddesease();
 }
-
-var kq1;
+String kq1;
 var key;
 
 

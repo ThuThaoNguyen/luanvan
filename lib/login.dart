@@ -11,6 +11,134 @@ import 'weatherforecast.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'admin/home_admin.dart';
+class bogai {
+  String key;
+  String url;
+  bogai(
+      this.key,
+      this.url,
+      );
+  bogai.fromSnapshot(DataSnapshot snapshot)
+      : key = snapshot.key,
+        url = snapshot.value['url'];
+
+  toJson() {
+    return {
+      "url": url,
+    };
+  }
+}
+class chaybiala {
+  String key;
+  String url;
+  chaybiala(
+      this.key,
+      this.url,
+      );
+  chaybiala.fromSnapshot(DataSnapshot snapshot)
+      : key = snapshot.key,
+        url = snapshot.value['url'];
+
+  toJson() {
+    return {
+      "url": url,
+    };
+  }
+}
+class vangla {
+  String key;
+  String url;
+  vangla(
+      this.key,
+      this.url,
+      );
+  vangla.fromSnapshot(DataSnapshot snapshot)
+      : key = snapshot.key,
+        url = snapshot.value['url'];
+
+  toJson() {
+    return {
+      "url": url,
+    };
+  }
+}
+class daoon {
+  String key;
+  String url;
+  daoon(
+      this.key,
+      this.url,
+      );
+  daoon.fromSnapshot(DataSnapshot snapshot)
+      : key = snapshot.key,
+        url = snapshot.value['url'];
+
+  toJson() {
+    return {
+      "url": url,
+    };
+  }
+}
+class domnau {
+  String key;
+  String url;
+  domnau(
+      this.key,
+      this.url,
+      );
+  domnau.fromSnapshot(DataSnapshot snapshot)
+      : key = snapshot.key,
+        url = snapshot.value['url'];
+
+  toJson() {
+    return {
+      "url": url,
+    };
+  }
+}
+class khongbenh {
+  String key;
+  String url;
+  khongbenh(
+      this.key,
+      this.url,
+      );
+  khongbenh.fromSnapshot(DataSnapshot snapshot)
+      : key = snapshot.key,
+        url = snapshot.value['url'];
+
+  toJson() {
+    return {
+      "url": url,
+    };
+  }
+}
+List<bogai> bogai1 = List();
+bogai anhbogai;
+List<chaybiala> chaybiala1 = List();
+chaybiala anhchaybiala;
+List<daoon> daoon1 = List();
+daoon anhdaoon;
+List<vangla> vangla1 = List();
+vangla anhvangla;
+List<domnau> domanu1 = List();
+domnau anhdomnau;
+List<khongbenh> khongbenh1 = List();
+khongbenh anhkhongbenh;
+DatabaseReference bogaiRef;
+DatabaseReference chaybialaRef;
+DatabaseReference domnauRef;
+DatabaseReference daoonRef;
+DatabaseReference vanglaRef;
+DatabaseReference khongbenhRef;
+int countbogai ;
+int countchaybiala ;
+int countvangla  ;
+int countdaoon ;
+int countdomnau ;
+int countkhongbenh;
+
+
 class login extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -87,18 +215,72 @@ class _MyHomePageState extends State<MyHomePage> {
   Future navigateToTuriolhomeAdmin(context) async {
     Navigator.push(context, MaterialPageRoute(builder: (context) => Myadmin()));
   }
+
   @override
   void initState() {
     super.initState();
     infor = User("", "", "", "", "");
     final FirebaseDatabase database = FirebaseDatabase(app: app);
     dbRef = database.reference().child("user");
-  }
+    countbogai = 0;
+    countchaybiala = 0;
+    countvangla = 0;
+    countdaoon = 0;
+    countdomnau = 0 ;
+    countkhongbenh = 0;
+//    final FirebaseDatabase database = FirebaseDatabase(app: app);
+    bogaiRef = database.reference().child("image").child('bogai');
+    bogaiRef.once().then((DataSnapshot snapshot) {
+      snapshot.value.forEach((key, value) {
+        countbogai = countbogai + 1;
+      });
+//      print(countbogai);
+    });
+    chaybialaRef = database.reference().child("image").child('chaybiala');
+    chaybialaRef.once().then((DataSnapshot snapshot) {
+      snapshot.value.forEach((key, value) {
+        countchaybiala = countchaybiala + 1;
+      });
+//      print(countchaybiala);
+    });
+    domnauRef = database.reference().child("image").child('domnau');
+    domnauRef.once().then((DataSnapshot snapshot) {
+      snapshot.value.forEach((key, value) {
+        countdomnau =  countdomnau + 1;
+      });
+//      print( countdomnau);
+    });
+    daoonRef = database.reference().child("image").child('daoon');
+    daoonRef.once().then((DataSnapshot snapshot) {
+      snapshot.value.forEach((key, value) {
+        countdaoon = countdaoon + 1;
+      });
+//      print(countdaoon);
+    });
+    vanglaRef = database.reference().child("image").child("vangla");
+    vanglaRef.once().then((DataSnapshot snapshot) {
+      snapshot.value.forEach((key, value) {
+        countvangla = countvangla + 1;
+      });
+//      print(countvangla);
+    });
+    khongbenhRef = database.reference().child("image").child('khongbenh');
+    khongbenhRef.once().then((DataSnapshot snapshot) {
+//      print(snapshot.value);
+      snapshot.value.forEach((key,value){
+        countkhongbenh = countkhongbenh +1;
+      });
+//      print(countkhongbenh);
+    });
+
+    }
+
   void login(){
     setState(() {
       for (int i=0;i<username_ar.length;i++){
         if(username_ar[i]==username&&password_ar[i]==password){
           navigateToTuriolhomeAdmin(context);
+//          tinh();
         }
         else error ="Tên đăng nhập hoặc mật khẩu không đúng" ;
       }
@@ -118,7 +300,7 @@ class _MyHomePageState extends State<MyHomePage> {
       style: style,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Username",
+          hintText: "Tên đăng nhập",
           border:
           OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
@@ -131,7 +313,7 @@ class _MyHomePageState extends State<MyHomePage> {
       style: style,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Password",
+          hintText: "Mật khẩu",
           border:
           OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
@@ -148,7 +330,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Text("Đăng nhập",
             textAlign: TextAlign.center,
             style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
+                color: Colors.white,fontFamily: 'Montserrat')),
       ),
     );
 

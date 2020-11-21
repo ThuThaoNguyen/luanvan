@@ -55,6 +55,7 @@ class MyImagePickerState extends State<MyImagePicker> {
   bool domnau = false;
   bool khongbenh = false;
   bool vangla = false;
+  double condition;
   Future toreturn() async {
     setState(() {
       imageURI = null;
@@ -113,6 +114,8 @@ class MyImagePickerState extends State<MyImagePicker> {
           .replaceAll(", ", "\n")
           .replaceAll("[{", "")
           .replaceAll("}]", "");
+       condition = double.parse( result.substring(12,output.toString().indexOf(',')-1));
+       print(condition);
        bogai = result.contains("bogai");
        chaybiala = result.contains("chaybiala");
        daoon = result.contains("daoon");
@@ -121,22 +124,23 @@ class MyImagePickerState extends State<MyImagePicker> {
        vangla = result.contains("vangla");
        if (bogai){
          kq = "Bọ gai";
-         uploadFile('bogai');
+         uploadFile('image/bogai');
        }
        else if (chaybiala){
          kq = "Bệnh cháy bìa lá";
-         uploadFile('chaybiala');
+         uploadFile('image/chaybiala');
        }
        else if(daoon){
          kq = "Bệnh đạo ôn";
-         uploadFile('daoon');
+         uploadFile('image/daoon');
        }
        else if(domnau){
          kq = "Bệnh đốm nâu";
+         uploadFile('image/domnau');
        }
        else {
          kq = "Bệnh vàng lá";
-         uploadFile('vangla');
+         uploadFile('image/vangla');
        }
 
     });
@@ -180,7 +184,12 @@ class MyImagePickerState extends State<MyImagePicker> {
     if(imageURI != null) {
       StorageReference storageReference = FirebaseStorage.instance.ref().child('$str/${Path.basename(imageURI.path)}');
       StorageUploadTask uploadTask = storageReference.putFile(imageURI);
-      await uploadTask.onComplete;
+      StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+      String url = await taskSnapshot.ref.getDownloadURL();
+      final FirebaseDatabase database = FirebaseDatabase(app: app);
+      database.reference().child(str).push().set(<String,String>{
+        'url':url
+      });
     }
   }
   @override
@@ -227,76 +236,127 @@ class MyImagePickerState extends State<MyImagePicker> {
                               )),
                       ])
             )
-                : Container(
-                    child: SingleChildScrollView(
-                        child: Column(children: <Widget>[
-                           Container(
-                               decoration: myboxDecoration(),
-
-                           child: Column(
-                             children: <Widget>[
-                               Container(
-                                 padding: EdgeInsets.all(10.0),
-                                 child:Image.file(imageURI,
-                                     width: 300, height: 200, fit: BoxFit.cover),
-                               ),
-                               result == null
-                                   ? Container(
-                                 margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
-                                 child: Text('Kết quả', style: style),
-                                 color: Colors.grey,
-                                 padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
-                               )
-                                   : Container(
-                                 margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
-                                 child: Text(result, style: style),
+                : AlertDialog(
+//                     contentPadding: EdgeInsets.zero,
+              content: SingleChildScrollView(
+                child: Column(children: <Widget>[
+                  Container(
+                      decoration: myboxDecoration(),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.all(10.0),
+                            child:Image.file(imageURI,
+                                width: 300, height: 200, fit: BoxFit.cover),
+                          ),
+                          result == null
+                              ? Container(
+                            margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                            child: Text('Kết quả', style: style),
+                            color: Colors.grey,
+                            padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
+                          )
+                              : condition >= 0.8
+                                  ? Container(
+                                       margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                       child: Text(result, style: style),
 //                                  color: Colors.grey,
-                                 padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
-                               ),
-                             ],
-                           )
-                         ),
-                          khongbenh == false
-                            ? Container(
-                              margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
-                              child: RaisedButton(
-                                onPressed: () {
-                                  navigateToDiseableInfor(context);
-                                },
-                                child: Text(
-                                  'XEM THÔNG TIN VỀ BỆNH',
-                                  style:TextStyle(fontFamily: 'Montserrat', fontSize: 18.0)
-                                ),
-                                textColor: Colors.white,
-                                color: Colors.green[600],
-                                padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18.0),
+                                       padding: EdgeInsets.fromLTRB(10, 12, 0, 12),
+                                   )
+                                  : Container(
+                                   margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                       child: Text('Không xác định', style: style),
+//                                     color: Colors.grey,
+                                       padding: EdgeInsets.fromLTRB(0, 12, 0, 12),
+                                    )
 
-                                ),
-                              ))
-                              :Text("")
-                        ]),
+                        ],
                       )
-            ),
+                  ),
+                ]),
+              ),
+              actions: <Widget>[
+                khongbenh == false && condition >= 0.8
+                    ?
+                Row(
+                  children: <Widget>[
+                    FlatButton(
+                      disabledColor: Colors.black87,
+                      onPressed: () {
+                        navigateToDiseableInfor(context);
+                      },
+                      child: Text(
+                          'XEM THÔNG TIN VỀ BỆNH',
+                          style:TextStyle(fontFamily: 'Montserrat', fontSize: 16.0)
+                      ),
+                      textColor: Colors.green[600],
+                      color: Colors.white,
+                      padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                      ),
                     ),
-        floatingActionButton: imageURI != null
-            ? FloatingActionButton(
-                backgroundColor: Colors.lightGreen,
-                child: (IconButton(
-                    icon: Icon(
-                  Icons.control_point,
+                    FlatButton(
+                      disabledColor: Colors.black87,
+                      onPressed: () {
+                        toreturn();
+//                                 Navigator.pop(context);
+                      },
+                      child: Text(
+                          'HỦY',
+                          style:TextStyle(fontFamily: 'Montserrat', fontSize: 16.0)
+                      ),
+                      textColor: Colors.deepOrange,
+                      color: Colors.white,
+                      padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                      ),
+                    )
+                  ],
+                )
+//                         margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
+                    :FlatButton(
+                  onPressed: () {
+                    toreturn();
+//                           Navigator.pop(context);
+                  },
+                  child: Text(
+                      'HỦY',
+                      style:TextStyle(fontFamily: 'Montserrat', fontSize: 18.0)
+                  ),
+                  textColor: Colors.deepOrange,
                   color: Colors.white,
-                  size: 30.0,
-                ))),
-                tooltip: "Add",
-                onPressed: (){
-                  toreturn();
-                }
-              )
-            : Text(""));
+                  padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+
+                  ),
+                )
+//                         :Text("")
+              ],
+            ),
+        ),
+//        floatingActionButton: imageURI != null
+//            ? FloatingActionButton(
+//                backgroundColor: Colors.lightGreen,
+//                child: (IconButton(
+//                    icon: Icon(
+//                  Icons.control_point,
+//                  color: Colors.white,
+//                  size: 30.0,
+//                ))),
+//                tooltip: "Add",
+//                onPressed: (){
+//                  toreturn();
+//                }
+//              )
+//            : Text("")
+    );
   }
 }
+
+
 //@override
 //Future navigateToLogin(context) async => Navigator.push(
 //    context, MaterialPageRoute(builder: (context) => login()));
