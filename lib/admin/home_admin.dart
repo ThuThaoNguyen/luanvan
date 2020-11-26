@@ -37,7 +37,7 @@ class _MyadminState extends State<Myadmin> {
   PageController _pageController;
   List<Widget> tabPages = [
     MyhomeAdmin(),
-    MyUserAdmin(),
+//    MyUserAdmin(),
     MyMarketRateAdmin(),
     MyDiseaseInforAdmin()
   ];
@@ -106,9 +106,9 @@ class _MyadminState extends State<Myadmin> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: Icon(Icons.home), title: Text("Trang chủ")),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.supervised_user_circle),
-              title: Text("Người dùng")),
+//          BottomNavigationBarItem(
+//              icon: Icon(Icons.supervised_user_circle),
+//              title: Text("Người dùng")),
           BottomNavigationBarItem(
               icon: Icon(Icons.trending_up), title: Text("Giá thị trường")),
           BottomNavigationBarItem(
@@ -180,7 +180,7 @@ class Home extends State<MyhomeAdmin> {
                               {
 
                                 label = 'bogai',
-                                navigateToShowImage(context)
+//                                navigateToShowImage(context)
                               },
                               child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -222,7 +222,7 @@ class Home extends State<MyhomeAdmin> {
 
                               onPressed: () => {
                                 label = 'chaybiala',
-                                navigateToShowImage(context)
+//                                navigateToShowImage(context)
 
                               },
                               child:Row(
@@ -263,7 +263,7 @@ class Home extends State<MyhomeAdmin> {
 
                                onPressed: () => {
                                  label = 'vangla',
-                                 navigateToShowImage(context)
+//                                 navigateToShowImage(context)
 
                                },
                                child:Row(
@@ -304,7 +304,7 @@ class Home extends State<MyhomeAdmin> {
 
                                  onPressed: () => {
                                    label = 'daoon',
-                                   navigateToShowImage(context)
+//                                   navigateToShowImage(context)
                                  },
                                  child:Row(
                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -343,7 +343,7 @@ class Home extends State<MyhomeAdmin> {
 
                                    onPressed: () => {
                                      label = 'domnau',
-                                     navigateToShowImage(context)
+//                                     navigateToShowImage(context)
 
                                    },
                                    child:Row(
@@ -383,7 +383,7 @@ class Home extends State<MyhomeAdmin> {
 
                                    onPressed: () => {
                                      label = 'khongbenh',
-                                     navigateToShowImage(context)
+//                                     navigateToShowImage(context)
                                    },
                                    child:Row(
                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,

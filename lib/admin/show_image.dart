@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tflite_example/admin/home_admin.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -198,22 +199,76 @@ class Myshowimage extends State<ShowImage> {
           centerTitle: true,
         ),
         body: Row(
-                children: <Widget>[
-                  Flexible(
-                      child: FirebaseAnimatedList(
-                          query: Ref,
-                          itemBuilder: (BuildContext context,
-                              DataSnapshot snapshot,
-                              Animation<double> animation,
-                              int index) {
-                            return  Container(
-                                child: Image.network(snapshot.value['url']),
-                                height: 60.0,
-                                width: 60.0);
+                    children: <Widget>[
+                      Flexible(
+                          child: FirebaseAnimatedList(
+                              query: Ref,
+                              itemBuilder: (BuildContext context,
+                                  DataSnapshot snapshot,
+                                  Animation<double> animation,
+                                  int index) {
+                                return  Container(
+                                    margin: EdgeInsets.all(10.0),
+//                                child: new ClipRRect(
+//                                  borderRadius: new BorderRadius.circular(17.7),
+                                    child: Image.network(snapshot.value['url'], height: 60.0, width: 60.0)
+//                            ),
+                                );
 
-                          }))
-                ],
-              )
+                              }))
+                    ],
+                  )
+//        Column(
+////          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//    children: <Widget>[
+//    Flexible(
+//    child: FirebaseAnimatedList(
+//        query: dbRef,
+//        itemBuilder: (BuildContext context, DataSnapshot snapshot,
+//            Animation<double> animation, int index) {
+//          return Container(
+//            padding: EdgeInsets.all(5.0),
+//            height: MediaQuery.of(context).size.width * 0.4,
+//            width: MediaQuery.of(context).size.width * 0.4,
+//            alignment: FractionalOffset.center,
+//            color: Colors.green[600],
+//            child: Column(
+//              mainAxisAlignment: MainAxisAlignment.center,
+//              children: <Widget>[
+//                Padding(
+//                  padding: const EdgeInsets.all(8.0),
+//                  child: new Image.asset(
+//                    "assets/images/" +
+//                        snapshot.value["image"],
+//                    width: 70.0,
+//                    height: 70.0,),
+////                          Icon(
+////                            Icons.lightbulb_outline,
+////                            color:
+////                                _lights ? Colors.yellow.shade600 : Colors.black,
+////                            size: 60,
+////                          ),
+//                ),
+//                GestureDetector(
+//                  onTap: () {
+//                    setState(() {
+//                      _lights = true;
+//                    });
+//                  },
+//                  child: Container(
+//                    color: Colors.yellow.shade600,
+//                    padding: const EdgeInsets.all(8),
+//                    child: Text(snapshot.value['name']),
+//                  ),
+//                ),
+//              ],
+//            ),
+//          );
+//        }))
+//    ],
+//    )
+
+
 
            );
   }

@@ -51,12 +51,12 @@ flutter_icons:
 # The following section is specific to Flutter.
 flutter:
   assets:
-    - assets/labels.txt
-    - assets/model_unquant.tflite
-    - assets/rice_graph.tflite
-    - assets/rice_labels.txt
+#    - assets/labels.txt
+#    - assets/model_unquant.tflite
+#    - assets/rice_graph.tflite
+#    - assets/rice_labels.txt
     - assets/benhvp.jpg
-    - assets/model.tflite
+#    - assets/model.tflite
     - assets/images/image5.jpg
     - assets/images/LogoMakr_42xAgW.png
     - assets/images/LogoMakr_9MOIQ9.png
@@ -67,16 +67,18 @@ flutter:
     - assets/images/domnau.jpg
     - assets/images/vangla.jpg
     - assets/images/LogoMakr_9MOIQ9_-_Copy-removebg-preview.png
-    - assets/rice_graph85.tflite
-    - assets/rice_labels85.txt
-    - assets/rice_graph93.tflite
-    - assets/rice_labels93.txt
-    - assets/rice_graph92.tflite
-    - assets/rice_labels92.txt
-    - assets/dictML.txt
-    - assets/modelML.tflite
-    - assets/labelsTF.txt
-    - assets/model_unquantTF.tflite
+    - assets/model_unquant54.tflite
+    - assets/labels54.txt
+#    - assets/rice_graph85.tflite
+#    - assets/rice_labels85.txt
+#    - assets/rice_graph93.tflite
+#    - assets/rice_labels93.txt
+#    - assets/rice_graph92.tflite
+#    - assets/rice_labels92.txt
+#    - assets/dictML.txt
+#    - assets/modelML.tflite
+#    - assets/labelsTF.txt
+#    - assets/model_unquantTF.tflite
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

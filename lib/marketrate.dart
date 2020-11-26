@@ -11,6 +11,7 @@ import 'weatherforecast.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'package:intl/intl.dart';
 
 final FirebaseApp app = initializeApp(
     options: FirebaseOptions(
@@ -22,36 +23,36 @@ FirebaseApp initializeApp({FirebaseOptions options}) {}
 
 class MarketRate {
   String key;
-  String Id;
+//  String Id;
   String Id_user;
   String name;
   String price;
-  String date;
-  String location;
+//  String date;
+//  String location;
   MarketRate(
-    this.Id,
-    this.Id_user,
-    this.name,
-    this.price,
-    this.date,
-    this.location,
-  );
+//      this.Id,
+      this.Id_user,
+      this.name,
+      this.price,
+//      this.date,
+//      this.location,
+      );
   MarketRate.fromSnapshot(DataSnapshot snapshot)
       : key = snapshot.key,
-        Id = snapshot.value['Id'],
+//        Id = snapshot.value['Id'],
         Id_user = snapshot.value['Id_user'],
         name = snapshot.value['name'],
-        price = snapshot.value['price'],
-        date = snapshot.value['date'],
-        location = snapshot.value['location'];
+        price = snapshot.value['price'];
+//        date = snapshot.value['date'],
+//        location = snapshot.value['location'];
   toJson() {
     return {
-      "Id": Id,
+//      "Id": Id,
       "Id_user": Id_user,
       "name": name,
       "price": price,
-      "date": date,
-      "location": location,
+//      "date": date,
+//      "location": location,
     };
   }
 }
@@ -77,15 +78,18 @@ class marketHome extends State<market_rate> {
 
   DatabaseReference label;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  var date = DateTime.now();
+
   @override
   void initState() {
-
     super.initState();
-    rate = MarketRate("", "", "", "", "", "");
+
+    rate = MarketRate("", "", "");
     final FirebaseDatabase database = FirebaseDatabase(app: app);
     rateRef = database.reference().child("market_rate");
     label = null;
 
+//    print(date);
   }
 
   @override
@@ -97,7 +101,9 @@ class marketHome extends State<market_rate> {
       ),
     );
   }
-
+  void dispose(){
+    super.dispose();
+  }
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
@@ -119,36 +125,36 @@ class marketHome extends State<market_rate> {
               new Row(children: <Widget>[
                 Icon(Icons.today, color: Colors.green, size: 20.0),
                 Text(
-                  "Ngày 03/08/2020",
+                  "Ngày "+ date.day.toString()+'/'+date.month.toString()+'/'+date.year.toString(),
                   style: new TextStyle(color: Colors.black, fontSize: 14.0),
                 )
               ]),
             ],
           ),
         ),
-        Container(
-          padding: EdgeInsets.fromLTRB(45, 0, 35, 20),
-          child: Row(
-            children: <Widget>[
-              Container(
-                color: Colors.white,
-                width: 160,
-                height: 38.0,
-                constraints: BoxConstraints(minWidth: 180.0, minHeight: 20.0),
-                child: TextField(
-                  // obscureText: true,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(), labelText: 'Nhập tên'),
-                ),
-              ),
-              const RaisedButton(
-                onPressed: null,
-                child: Text('Tìm',
-                    style: TextStyle(fontSize: 20, color: Colors.white)),
-              ),
-            ],
-          ),
-        ),
+//        Container(
+//          padding: EdgeInsets.fromLTRB(45, 0, 35, 20),
+//          child: Row(
+//            children: <Widget>[
+//              Container(
+//                color: Colors.white,
+//                width: 160,
+//                height: 38.0,
+//                constraints: BoxConstraints(minWidth: 180.0, minHeight: 20.0),
+//                child: TextField(
+//                  // obscureText: true,
+//                  decoration: InputDecoration(
+//                      border: OutlineInputBorder(), labelText: 'Nhập tên'),
+//                ),
+//              ),
+//              const RaisedButton(
+//                onPressed:null ,
+//                child: Text('Tìm',
+//                    style: TextStyle(fontSize: 20, color: Colors.white)),
+//              ),
+//            ],
+//          ),
+//        ),
         Row(
           mainAxisAlignment:MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -177,10 +183,10 @@ class marketHome extends State<market_rate> {
                   mainAxisAlignment:MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                      Container (
-                         padding: EdgeInsets.fromLTRB(50, 5, 0, 5),
+                         padding: EdgeInsets.fromLTRB(50, 10, 0, 10),
                          child: Text(snapshot.value["name"].toString())),
                      Container(
-                         padding: EdgeInsets.fromLTRB(0, 5, 40, 5),
+                         padding: EdgeInsets.fromLTRB(0, 10, 40, 10),
                          child:Text(snapshot.value["price"].toString()))
                   ],
                 )

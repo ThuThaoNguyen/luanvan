@@ -55,7 +55,7 @@ class MyImagePickerState extends State<MyImagePicker> {
   bool domnau = false;
   bool khongbenh = false;
   bool vangla = false;
-  double condition;
+  double condition = 0.4;
   Future toreturn() async {
     setState(() {
       imageURI = null;
@@ -96,8 +96,8 @@ class MyImagePickerState extends State<MyImagePicker> {
 
   Future classifyImage() async {
     await Tflite.loadModel(
-        model: "assets/model_unquantTF.tflite",
-        labels: "assets/labelsTF.txt",
+        model: "assets/model_unquant54.tflite",
+        labels: "assets/labels54.txt",
         numThreads: 1,
         isAsset: true,
         useGpuDelegate: false);
@@ -116,12 +116,12 @@ class MyImagePickerState extends State<MyImagePicker> {
           .replaceAll("}]", "");
        condition = double.parse( result.substring(12,output.toString().indexOf(',')-1));
        print(condition);
-       bogai = result.contains("bogai");
-       chaybiala = result.contains("chaybiala");
-       daoon = result.contains("daoon");
-       domnau = result.contains("domnau");
-       khongbenh = result.contains("khongbenh");
-       vangla = result.contains("vangla");
+       bogai = result.contains("bo_gai");
+       chaybiala = result.contains("chay_bia_la");
+       daoon = result.contains("dao_on");
+       domnau = result.contains("dom_nau");
+       khongbenh = result.contains("khong_benh");
+       vangla = result.contains("vang_la");
        if (bogai){
          kq = "Bọ gai";
          uploadFile('image/bogai');
@@ -142,7 +142,7 @@ class MyImagePickerState extends State<MyImagePicker> {
          kq = "Bệnh vàng lá";
          uploadFile('image/vangla');
        }
-
+      print(kq);
     });
     Tflite.close();
   }
@@ -256,7 +256,7 @@ class MyImagePickerState extends State<MyImagePicker> {
                             color: Colors.grey,
                             padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
                           )
-                              : condition >= 0.8
+                              : condition >= 0.5
                                   ? Container(
                                        margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
                                        child: Text(result, style: style),
@@ -276,7 +276,7 @@ class MyImagePickerState extends State<MyImagePicker> {
                 ]),
               ),
               actions: <Widget>[
-                khongbenh == false && condition >= 0.8
+                khongbenh == false && condition >= 0.5
                     ?
                 Row(
                   children: <Widget>[
@@ -353,6 +353,9 @@ class MyImagePickerState extends State<MyImagePicker> {
 //              )
 //            : Text("")
     );
+  }
+  void dispose(){
+    super.dispose();
   }
 }
 

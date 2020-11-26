@@ -1,34 +1,184 @@
 import 'dart:typed_data';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:tflite/tflite.dart';
-import 'package:tflite_example/help_infor.dart';
+import 'add_marketadmin.dart';
 import 'package:hexcolor/hexcolor.dart';
-class MyMarketRateAdmin extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-            body: Center(child: MarketRateAdmin()))); // MyImagePicker()
+
+final FirebaseApp app = initializeApp(
+    options: FirebaseOptions(
+        googleAppID: "1:673866928334:android:448337214e83c7c60d409f",
+        apiKey: 'AIzaSyBPbOP8LrXQoQ3PkIEr06wmcAk_aW4Pyqc',
+        databaseURL: 'https://onrice-aac04.firebaseio.com'));
+
+FirebaseApp initializeApp({FirebaseOptions options}) {}
+
+class MarketRate {
+  String key;
+//  String Id;
+  String Id_user;
+  String name;
+  String price;
+//  String date;
+//  String location;
+  MarketRate(
+//      this.Id,
+      this.Id_user,
+      this.name,
+      this.price,
+//      this.date,
+//      this.location,
+      );
+  MarketRate.fromSnapshot(DataSnapshot snapshot)
+      : key = snapshot.key,
+//        Id = snapshot.value['Id'],
+        Id_user = snapshot.value['Id_user'],
+        name = snapshot.value['name'],
+        price = snapshot.value['price'];
+//        date = snapshot.value['date'],
+//        location = snapshot.value['location'];
+  toJson() {
+    return {
+//      "Id": Id,
+      "Id_user": Id_user,
+      "name": name,
+      "price": price,
+//      "date": date,
+//      "location": location,
+    };
   }
 }
-class MarketRateAdmin extends StatefulWidget{
-  @override
 
-  MarketRate createState() => new MarketRate();
+class MyMarketRateAdmin extends StatefulWidget {
+  @override
+  MarketRateAdmin createState() => new MarketRateAdmin();
 }
-class MarketRate extends State<MarketRateAdmin>{
+
+class MarketRateAdmin extends State<MyMarketRateAdmin> {
+  List<MarketRate> market_rate = List();
+  MarketRate rate;
+  DatabaseReference rateRef;
+  String product;
+  String price;
+  @override
+  void initState() {
+    super.initState();
+    rate = MarketRate("", "", "");
+    final FirebaseDatabase database = FirebaseDatabase(app: app);
+    rateRef = database.reference().child("market_rate");
+    rateRef.once().then((DataSnapshot snapshot) {
+      print(snapshot.value);
+    });
+//    print(date);
+  }
+  BoxDecoration myboxDecoration() {
+    return BoxDecoration(
+      border: Border.all(
+        width: 1, //
+        color: Colors.grey,
+        //                  <--- border width here
+      ),
+      borderRadius: new BorderRadius.circular(
+          4.0),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-
     return Scaffold(
-     body: Text('market'),
+        body: Container(
+          child: Column(children: <Widget>[
+//         Product.length == 0 ? dynamicTextField : result,
+//         Product.length == 0 ? submitButton : new Container(),
+//          child: ListBody(children: <Widget>[
+            Flexible(
+                child: FirebaseAnimatedList(
+                    query: rateRef,
+                    itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                        Animation<double> animation, int index) {
+                      return Row(
+                        children: <Widget>[
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.54,
+                            padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
+                            child: new TextFormField(
+//                            controller: snapshot.value['name'],
+                            validator: (value){
+                              if(value.isEmpty){
+                                return 'Vui lòng nhập giá trị';
+                              }
+//                              else { product = value;}
+                            },
+                              onChanged:(value){
+                                rateRef.child(snapshot.key).update({
+                                  'name': value
+                                });
+                              } ,
+                             initialValue: snapshot.value['name'],
+                              decoration: const InputDecoration(
+                                  labelText: 'Tên sản phẩm',
+                                  border: OutlineInputBorder()),
+                            ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
+                            child: new TextFormField(
+//                             controller: snapshot.value['price'],
+                              validator: (value){
+                                if(value.isEmpty){
+                                  return 'Vui lòng nhập giá trị';
+                                }
+//                                else { price = value;}
+                              },
+                              onChanged:(value){
+                                rateRef.child(snapshot.key).update({
+                                  'price': value
+                                });
+                              } ,
+                              initialValue: snapshot.value['price'].toString(),
+                              decoration: const InputDecoration(
+                                  labelText: 'Giá',
+                                  border: OutlineInputBorder()),
+                              keyboardType: TextInputType.number,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0.0,7.5,0,0.0),
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            height:59.0,
+//                            padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
+                            child: RaisedButton(
 
-    );
+                               color:Colors.white,
+                               onPressed:(){
+                                     rateRef.child(snapshot.key).remove();
+                                },
+                               child:Icon(Icons.cancel),
+                            ),
+
+                            decoration: myboxDecoration(),)
+                        ],
+                      );
+                    }))
+          ]),
+//       ]
+//       ),
+        ),
+        floatingActionButton: new FloatingActionButton(
+            backgroundColor: Colors.green[600],
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => MyAddMarketAdmin()));
+            },
+            child: new Icon(
+              Icons.add,
+            )));
   }
 }
+

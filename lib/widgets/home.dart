@@ -83,6 +83,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindin
             // If the Future is complete, display the preview.
             return Stack(
               children: <Widget>[
+
                 // shows the camera preview
                 CameraScreen(
                   controller: _cameraService.cameraController,
@@ -95,6 +96,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindin
                 Recognition(
                   ready: true,
                 ),
+
               ],
             );
           } else {

@@ -53,7 +53,7 @@ class _RecognitionState extends State<Recognition> {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
-        height: 200,
+        height: 250,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -86,10 +86,16 @@ class _RecognitionState extends State<Recognition> {
 
   Widget _titleWidget() {
     return Container(
-      padding: EdgeInsets.only(top: 15, left: 20, right: 10),
+      padding: EdgeInsets.only(top: 10, left: 10, right: 10),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
+          FlatButton(
+            child: Icon(Icons.keyboard_arrow_left,color: Colors.white,),
+            onPressed: (){
+              Navigator.pop(context);
+            },
+          ),
           Text(
             "Nhận diện",
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.w300,color: Colors.white),

@@ -233,10 +233,10 @@ class MyWeatherState extends State<weather_forecast> {
 
   @override
   void initState() {
+
+    super.initState();
     _dropDownMenuItems = getDropDownMenuItems();
     local = _dropDownMenuItems[0].value;
-    super.initState();
-
     loadWeather();
   }
 
@@ -365,6 +365,9 @@ class MyWeatherState extends State<weather_forecast> {
     setState(() {
       isLoading = false;
     });
+  }
+  void dispose(){
+    super.dispose();
   }
 }
 //}

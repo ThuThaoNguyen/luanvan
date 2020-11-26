@@ -250,4 +250,7 @@ class disease_infor extends State<MydiseaseInfor> {
       ),
     );
   }
+  void dispose(){
+    super.dispose();
+  }
 }
