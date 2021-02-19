@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:tflite_example/services/tensorflow-service.dart';
 import 'package:flutter/material.dart';
-
+import 'package:tflite_example/diseableinfor.dart';
+var nametitleonline;
 class Recognition extends StatefulWidget {
   Recognition({Key key, @required this.ready}) : super(key: key);
 
@@ -24,7 +25,7 @@ class _RecognitionState extends State<Recognition> {
 
   // tensorflow service injection
   TensorflowService _tensorflowService = TensorflowService();
-
+  double min = 0;
   @override
   void initState() {
     super.initState();
@@ -40,6 +41,8 @@ class _RecognitionState extends State<Recognition> {
           // rebuilds the screen with the new recognitions
           setState(() {
             _currentRecognition = recognition;
+            min = _currentRecognition[0]['confidence'];
+            nametitleonline=_currentRecognition[0]['label'].toString().replaceAll(' ', '');
           });
         } else {
           _currentRecognition = [];
@@ -47,13 +50,16 @@ class _RecognitionState extends State<Recognition> {
       });
     }
   }
+  @override
+  Future navigateToDiseableInfor(context) async => Navigator.push(
+      context, MaterialPageRoute(builder: (context) => MydiseaseInfor()));
 
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
-        height: 250,
+        height: 290,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -72,16 +78,36 @@ class _RecognitionState extends State<Recognition> {
                           _titleWidget(),
 
                           // shows recognitions list
-                          _contentWidget(),
+                          min>=0.5 ?_contentWidget() :Container(height:150,child:Text("Không xác định", style: TextStyle(color: Colors.white),)),
+                          min>=0.5 ? FloatingActionButton(
+                                   backgroundColor: Colors.lightGreen,
+                                    child: (
+                                         IconButton(
+                                         icon: Icon(
+                                           Icons.info,
+                                          color: Colors.white,
+                                          size: 20.0,
+                                          ))),
+                                    tooltip: "Add",
+                                    onPressed: (){
+                                     if(nametitleonline!='khongbenh'){
+                                       navigateToDiseableInfor(context);
+                                     }
+                                     }
+                                    )
+                                    :Text('')
                         ]
                       : <Widget>[],
                 ),
               ),
             ),
+
           ],
         ),
       ),
+
     );
+
   }
 
   Widget _titleWidget() {
@@ -161,6 +187,7 @@ class _RecognitionState extends State<Recognition> {
     } else {
       return Text('');
     }
+
   }
 
   @override

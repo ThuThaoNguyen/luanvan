@@ -22,33 +22,33 @@ FirebaseApp initializeApp({FirebaseOptions options}) {}
 class MarketRate {
   String key;
 //  String Id;
-  String Id_user;
-  String name;
-  String price;
+  String Ma_admin;
+  String Ten_NS;
+  String Gia;
 //  String date;
 //  String location;
   MarketRate(
 //      this.Id,
-      this.Id_user,
-      this.name,
-      this.price,
+      this.Ma_admin,
+      this.Ten_NS,
+      this.Gia,
 //      this.date,
 //      this.location,
       );
   MarketRate.fromSnapshot(DataSnapshot snapshot)
       : key = snapshot.key,
 //        Id = snapshot.value['Id'],
-        Id_user = snapshot.value['Id_user'],
-        name = snapshot.value['name'],
-        price = snapshot.value['price'];
+        Ma_admin = snapshot.value['Ma_admin'],
+        Ten_NS = snapshot.value['Ten_NS'],
+        Gia = snapshot.value['Gia'];
 //        date = snapshot.value['date'],
 //        location = snapshot.value['location'];
   toJson() {
     return {
 //      "Id": Id,
-      "Id_user": Id_user,
-      "name": name,
-      "price": price,
+      "Ma_admin": Ma_admin,
+      "Ten_NS": Ten_NS,
+      "Gia": Gia,
 //      "date": date,
 //      "location": location,
     };
@@ -71,7 +71,7 @@ class MarketRateAdmin extends State<MyMarketRateAdmin> {
     super.initState();
     rate = MarketRate("", "", "");
     final FirebaseDatabase database = FirebaseDatabase(app: app);
-    rateRef = database.reference().child("market_rate");
+    rateRef = database.reference().child("Gia_NS");
     rateRef.once().then((DataSnapshot snapshot) {
       print(snapshot.value);
     });
@@ -117,10 +117,10 @@ class MarketRateAdmin extends State<MyMarketRateAdmin> {
                             },
                               onChanged:(value){
                                 rateRef.child(snapshot.key).update({
-                                  'name': value
+                                  'Ten_NS': value
                                 });
                               } ,
-                             initialValue: snapshot.value['name'],
+                             initialValue: snapshot.value['Ten_NS'],
                               decoration: const InputDecoration(
                                   labelText: 'Tên sản phẩm',
                                   border: OutlineInputBorder()),
@@ -139,10 +139,10 @@ class MarketRateAdmin extends State<MyMarketRateAdmin> {
                               },
                               onChanged:(value){
                                 rateRef.child(snapshot.key).update({
-                                  'price': value
+                                  'Gia': value
                                 });
                               } ,
-                              initialValue: snapshot.value['price'].toString(),
+                              initialValue: snapshot.value['Gia'].toString(),
                               decoration: const InputDecoration(
                                   labelText: 'Giá',
                                   border: OutlineInputBorder()),

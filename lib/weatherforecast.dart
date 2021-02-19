@@ -362,9 +362,7 @@ class MyWeatherState extends State<weather_forecast> {
       });
     }
 
-    setState(() {
-      isLoading = false;
-    });
+
   }
   void dispose(){
     super.dispose();

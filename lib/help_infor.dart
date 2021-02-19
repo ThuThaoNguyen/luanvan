@@ -67,14 +67,14 @@ class help_infor extends StatelessWidget {
                 ))),
         Container(
             padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
-            child: Text("Ứng dụng là sản phẩm được phát triển trong đồ án luận văn. Ứng dụng giúp nông dân nhận diện 4 loại bệnh hại chính: bệnh vàng lá, bệnh đạo ôn, bệnh đốm nâu, bệnh cháy bìa lá thông qua biểu hiện trên lá lúa. Ngoài ra, n còn hỗ trợ thêm chức năng xem giá thị trường và dự báo thời tiết tại địa phương.",
+            child: Text("Ứng dụng là sản phẩm được phát triển trong đồ án luận văn. Ứng dụng giúp nông dân nhận diện 4 loại bệnh hại chính: bệnh đạo ôn, bệnh đốm nâu, bệnh cháy bìa lá, bệnh bọ gai thông qua biểu hiện trên lá lúa. Ngoài ra, n còn hỗ trợ thêm chức năng xem giá thị trường và dự báo thời tiết tại địa phương.",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 16,
 
                 ))),
         Container(
-            padding: EdgeInsets.fromLTRB(15, 10, 250, 0),
+            padding: EdgeInsets.fromLTRB(15, 10, 214, 0),
             child: Text("Thông tin liên hệ:",
                 style: TextStyle(
                   color: Colors.black,
@@ -82,7 +82,7 @@ class help_infor extends StatelessWidget {
 
                 ))),
         Container(
-            padding: EdgeInsets.fromLTRB(15, 10, 140, 0),
+            padding: EdgeInsets.fromLTRB(15, 10, 90, 0),
             child: Text("thaob1605307@student.ctu.edu.vn",
                 style: TextStyle(
                   color: Colors.blue,

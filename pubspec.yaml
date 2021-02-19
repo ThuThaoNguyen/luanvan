@@ -67,19 +67,12 @@ flutter:
     - assets/images/domnau.jpg
     - assets/images/vangla.jpg
     - assets/images/LogoMakr_9MOIQ9_-_Copy-removebg-preview.png
-    - assets/model_unquant54.tflite
-    - assets/labels54.txt
-#    - assets/rice_graph85.tflite
-#    - assets/rice_labels85.txt
-#    - assets/rice_graph93.tflite
-#    - assets/rice_labels93.txt
-#    - assets/rice_graph92.tflite
-#    - assets/rice_labels92.txt
-#    - assets/dictML.txt
-#    - assets/modelML.tflite
-#    - assets/labelsTF.txt
-#    - assets/model_unquantTF.tflite
-
+    - assets/final_model96_8.tflite
+    - assets/rice_labels96,8.txt
+    - assets/final_modelthu.tflite
+    - assets/rice_labelsthu.txt
+    - assets/final_modelthup2.tflite
+    - assets/rice_labelsthup2.txt
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

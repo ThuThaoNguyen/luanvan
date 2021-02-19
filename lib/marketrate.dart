@@ -24,33 +24,33 @@ FirebaseApp initializeApp({FirebaseOptions options}) {}
 class MarketRate {
   String key;
 //  String Id;
-  String Id_user;
-  String name;
-  String price;
+  String Ma_admin;
+  String Ten_NS;
+  String Gia;
 //  String date;
 //  String location;
   MarketRate(
 //      this.Id,
-      this.Id_user,
-      this.name,
-      this.price,
+      this.Ma_admin,
+      this.Ten_NS,
+      this.Gia,
 //      this.date,
 //      this.location,
       );
   MarketRate.fromSnapshot(DataSnapshot snapshot)
       : key = snapshot.key,
 //        Id = snapshot.value['Id'],
-        Id_user = snapshot.value['Id_user'],
-        name = snapshot.value['name'],
-        price = snapshot.value['price'];
+        Ma_admin = snapshot.value['Ma_admin'],
+        Ten_NS = snapshot.value['Ten_NS'],
+        Gia = snapshot.value['Gia'];
 //        date = snapshot.value['date'],
 //        location = snapshot.value['location'];
   toJson() {
     return {
 //      "Id": Id,
-      "Id_user": Id_user,
-      "name": name,
-      "price": price,
+      "Ma_admin": Ma_admin,
+      "Ten_NS": Ten_NS,
+      "Gia": Gia,
 //      "date": date,
 //      "location": location,
     };
@@ -86,7 +86,7 @@ class marketHome extends State<market_rate> {
 
     rate = MarketRate("", "", "");
     final FirebaseDatabase database = FirebaseDatabase(app: app);
-    rateRef = database.reference().child("market_rate");
+    rateRef = database.reference().child("Gia_NS");
     label = null;
 
 //    print(date);
@@ -184,10 +184,10 @@ class marketHome extends State<market_rate> {
                   children: <Widget>[
                      Container (
                          padding: EdgeInsets.fromLTRB(50, 10, 0, 10),
-                         child: Text(snapshot.value["name"].toString())),
+                         child: Text(snapshot.value["Ten_NS"].toString())),
                      Container(
                          padding: EdgeInsets.fromLTRB(0, 10, 40, 10),
-                         child:Text(snapshot.value["price"].toString()))
+                         child:Text(snapshot.value["Gia"].toString()))
                   ],
                 )
               ],

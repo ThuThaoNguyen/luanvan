@@ -23,8 +23,8 @@ class TensorflowService {
     try {
       this._recognitionController.add(null);
       await Tflite.loadModel(
-        model: "assets/model_unquant54.tflite",
-        labels: "assets/labels54.txt",
+        model: "assets/final_modelthup2.tflite",
+        labels: "assets/rice_labelsthup2.txt",
       );
       _modelLoaded = true;
     } catch (e) {

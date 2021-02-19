@@ -253,46 +253,46 @@ class Home extends State<MyhomeAdmin> {
                                     ),
                                   ]))
                       ),
-                         Container(
-//                margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                           height: 60.0,
-                           child: RaisedButton(
-                               textColor: Colors.black87,
-//                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                               color: Colors.white,
-
-                               onPressed: () => {
-                                 label = 'vangla',
-//                                 navigateToShowImage(context)
-
-                               },
-                               child:Row(
-                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                   children: <Widget>[
-                                     new Text('  vangla',style: TextStyle(
-                                         fontSize: 16),),
-//            if (_canEdit(model))
-                                     new Row(
-                                       children: [
-                                         Container(
-                                           decoration: new BoxDecoration(
-                                             color: Colors.grey.shade300,
-                                             borderRadius: new BorderRadius.circular(20.0),
-                                           ),
-                                           child: Padding(
-                                             padding: EdgeInsets.symmetric(
-                                                 vertical: 4, horizontal: 12),
-                                             child: Text(countvangla.toString() +' ảnh', style: TextStyle(
-                                               fontSize: 14,
-                                               fontWeight: FontWeight.bold,),
-                                             ),
-                                           ),
-                                         ),
-                                         const Icon(Icons.navigate_next),
-                                       ],
-                                     ),
-                                   ]))),
+//                         Container(
+////                margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+//                           height: 60.0,
+//                           child: RaisedButton(
+//                               textColor: Colors.black87,
+////                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+//                               color: Colors.white,
+//
+//                               onPressed: () => {
+//                                 label = 'vangla',
+////                                 navigateToShowImage(context)
+//
+//                               },
+//                               child:Row(
+//                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                                   crossAxisAlignment: CrossAxisAlignment.center,
+//                                   children: <Widget>[
+//                                     new Text('  vangla',style: TextStyle(
+//                                         fontSize: 16),),
+////            if (_canEdit(model))
+//                                     new Row(
+//                                       children: [
+//                                         Container(
+//                                           decoration: new BoxDecoration(
+//                                             color: Colors.grey.shade300,
+//                                             borderRadius: new BorderRadius.circular(20.0),
+//                                           ),
+//                                           child: Padding(
+//                                             padding: EdgeInsets.symmetric(
+//                                                 vertical: 4, horizontal: 12),
+//                                             child: Text(countvangla.toString() +' ảnh', style: TextStyle(
+//                                               fontSize: 14,
+//                                               fontWeight: FontWeight.bold,),
+//                                             ),
+//                                           ),
+//                                         ),
+//                                         const Icon(Icons.navigate_next),
+//                                       ],
+//                                     ),
+//                                   ]))),
 
                            Container(
 //                margin: EdgeInsets.fromLTRB(0, 10, 0, 10),

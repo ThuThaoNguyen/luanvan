@@ -11,56 +11,6 @@ import 'package:tflite/tflite.dart';
 import 'home_admin.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'diseaseinfor_admin.dart';
-//final FirebaseApp app = initializeApp(
-//    options: FirebaseOptions(
-//        googleAppID: "1:673866928334:android:448337214e83c7c60d409f",
-//        apiKey: 'AIzaSyBPbOP8LrXQoQ3PkIEr06wmcAk_aW4Pyqc',
-//        databaseURL: 'https://onrice-aac04.firebaseio.com'));
-//
-//FirebaseApp initializeApp({FirebaseOptions options}) {}
-//class Disease2 {
-//  String key;
-//  String Id_DI;
-//  String Id_user;
-//  String expression;
-//  String image;
-//  String medicine;
-//  String name;
-//  String reason;
-//  String treatment;
-//  Disease2(this.Id_DI, this.Id_user, this.expression, this.image,
-//      this.medicine, this.name, this.reason, this.treatment);
-//  Disease2.fromSnapshot(DataSnapshot snapshot)
-//      : key = snapshot.key,
-//        Id_DI = snapshot.value['Id_DI'],
-//        Id_user = snapshot.value['Id_user'],
-//        expression = snapshot.value['expression'],
-//        image = snapshot.value['image'],
-//        medicine = snapshot.value['medicine'],
-//        name = snapshot.value['name'],
-//        reason = snapshot.value['reason'],
-//        treatment = snapshot.value['treatment'];
-//  toJson() {
-//    return {
-//      "Id_DI": Id_DI,
-//      "Id_user": Id_user,
-//      "expression": expression,
-//      "image": image,
-//      "medicine": medicine,
-//      "name": name,
-//      "reason": reason,
-//      "treatment": treatment
-//    };
-//  }
-//}
-//class MyDiseaseInforAdmin extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return MaterialApp(
-//        debugShowCheckedModeBanner: false,
-//        home:  DiseaseInforAdmin()); // MyImagePicker()
-//  }
-//}
 
 class MyShowDiseaseInforAdmin extends StatefulWidget {
   final String label;
@@ -84,15 +34,15 @@ class ShowDiseaseInfor extends State< MyShowDiseaseInforAdmin > {
     infor = Disease("", "", "", "", "", "", "", "");
     final FirebaseDatabase database = FirebaseDatabase(app: app);
     print(widget.label);
-    dbRef = database.reference().child("diseaseInfor");
+    dbRef = database.reference().child("Benh");
     dbRef.once().then((DataSnapshot snapshot) {
       print(snapshot.value);
     });
 
   }
 
-  Future navigateToInfor(context) async =>
-      Navigator.push(context, MaterialPageRoute(builder: (context) =>  Myadmin()));
+//  Future navigateToInfor(context) async =>
+//      Navigator.push(context, MaterialPageRoute(builder: (context) =>  Myadmin()));
   String ten;
   String bieuhien;
   String nguyennhan;
@@ -136,7 +86,7 @@ class ShowDiseaseInfor extends State< MyShowDiseaseInforAdmin > {
                             Animation<double> animation, int index) {
 //                          if ( snapshot.value['name'] ==  'bọ gai')  {
                             return
-                              snapshot.value['name'] ==  widget.label ?
+                              snapshot.value['Ten_benh'] ==  widget.label ?
                             Center(
                               child: SingleChildScrollView(
                                   child: Column(
@@ -151,7 +101,7 @@ class ShowDiseaseInfor extends State< MyShowDiseaseInforAdmin > {
                                               else {ten = value;}
                                             },
 //                                            controller: ten,
-                                            initialValue: snapshot.value['name'],
+                                            initialValue: snapshot.value['Ten_benh'],
                                             decoration: InputDecoration(
                                                 labelText: 'Tên',
 //                                        errorText: 'Error message',
@@ -173,7 +123,7 @@ class ShowDiseaseInfor extends State< MyShowDiseaseInforAdmin > {
                                               else {bieuhien = value;}
                                             },
 //                                            controller: ten,
-                                            initialValue: snapshot.value['expression'] ,
+                                            initialValue: snapshot.value['Bieu_hien'] ,
                                             decoration: InputDecoration(
                                                 labelText: 'Biểu hiện',
 //                                        errorText: 'Error message',
@@ -195,7 +145,7 @@ class ShowDiseaseInfor extends State< MyShowDiseaseInforAdmin > {
                                               else {nguyennhan = value;}
                                             },
 //                                            controller: ten,
-                                            initialValue: snapshot.value['reason'] ,
+                                            initialValue: snapshot.value['Nguyen_nhan'] ,
                                             decoration: InputDecoration(
                                                 labelText: 'Nguyên nhân',
 //                                        errorText: 'Error message',
@@ -217,7 +167,7 @@ class ShowDiseaseInfor extends State< MyShowDiseaseInforAdmin > {
                                               else {phongtri = value;}
                                             },
 //                                            controller: ten,
-                                            initialValue: snapshot.value['treatment'] ,
+                                            initialValue: snapshot.value['Chua_tri'] ,
                                             decoration: InputDecoration(
                                                 labelText: 'Cách phòng trị',
 //                                        errorText: 'Error message',
@@ -239,7 +189,7 @@ class ShowDiseaseInfor extends State< MyShowDiseaseInforAdmin > {
                                               else {thuoc = value;}
                                             },
 //                                            controller: ten,
-                                            initialValue: snapshot.value['medicine'] ,
+                                            initialValue: snapshot.value['Thuoc'] ,
                                             decoration: InputDecoration(
                                                 labelText: 'Thuốc trị',
 //                                        errorText: 'Error message',
@@ -259,10 +209,14 @@ class ShowDiseaseInfor extends State< MyShowDiseaseInforAdmin > {
                                             final FormState form = _formKey.currentState;
                                             if (form.validate()){
                                               dbRef.child(snapshot.key).update({
-                                                'name': ten
+                                                'Ten_benh': ten,
+                                                'Bieu_hien':bieuhien,
+                                                'Nguyen_nhan':nguyennhan,
+                                                'Chua_tri':phongtri,
+                                                'Thuoc':thuoc
                                               });
 
-                                              navigateToInfor(context);
+                                              Navigator.pop(context);
 
                                             }
                                           },

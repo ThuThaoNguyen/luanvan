@@ -177,26 +177,26 @@ class MyHomePage extends StatefulWidget {
 }
 class User{
   String key;
-  String Id;
-  String Id_type;
-  String email;
-  String password;
-  String username;
-  User(this.Id, this.Id_type, this.email, this.password, this.username);
+  String Ma_admin;
+
+  String Email;
+  String Mat_khau;
+  String Ten_DN;
+  User(this.Ma_admin, this.Email, this.Mat_khau, this.Ten_DN);
   User.fromSnapshot(DataSnapshot snapshot)
       : key = snapshot.key,
-        Id = snapshot.value['Id'],
-        Id_type = snapshot.value['Id_type'],
-        email = snapshot.value['email'],
-        password = snapshot.value['password'],
-        username = snapshot.value['username'];
+        Ma_admin = snapshot.value['Ma_admin'],
+
+        Email = snapshot.value['Email'],
+        Mat_khau = snapshot.value['Mat_khau'],
+        Ten_DN = snapshot.value['Ten_DN'];
    toJson(){
       return {
-      "Id": Id,
-      "Id_type": Id_type,
-      "email": email,
-      "password": password,
-      "username": username
+      "Ma_admin": Ma_admin,
+
+      "Email": Email,
+      "Mat_khau": Mat_khau,
+      "Ten_DN": Ten_DN
     };
   }
 }
@@ -219,9 +219,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    infor = User("", "", "", "", "");
+    infor = User( "", "", "", "");
     final FirebaseDatabase database = FirebaseDatabase(app: app);
-    dbRef = database.reference().child("user");
+    dbRef = database.reference().child("Admin");
     countbogai = 0;
     countchaybiala = 0;
     countvangla = 0;
@@ -229,42 +229,42 @@ class _MyHomePageState extends State<MyHomePage> {
     countdomnau = 0 ;
     countkhongbenh = 0;
 //    final FirebaseDatabase database = FirebaseDatabase(app: app);
-    bogaiRef = database.reference().child("image").child('bogai');
+    bogaiRef = database.reference().child("Hinh_anh").child('bogai');
     bogaiRef.once().then((DataSnapshot snapshot) {
       snapshot.value.forEach((key, value) {
         countbogai = countbogai + 1;
       });
 //      print(countbogai);
     });
-    chaybialaRef = database.reference().child("image").child('chaybiala');
+    chaybialaRef = database.reference().child("Hinh_anh").child('chaybiala');
     chaybialaRef.once().then((DataSnapshot snapshot) {
       snapshot.value.forEach((key, value) {
         countchaybiala = countchaybiala + 1;
       });
 //      print(countchaybiala);
     });
-    domnauRef = database.reference().child("image").child('domnau');
+    domnauRef = database.reference().child("Hinh_anh").child('domnau');
     domnauRef.once().then((DataSnapshot snapshot) {
       snapshot.value.forEach((key, value) {
         countdomnau =  countdomnau + 1;
       });
 //      print( countdomnau);
     });
-    daoonRef = database.reference().child("image").child('daoon');
+    daoonRef = database.reference().child("Hinh_anh").child('daoon');
     daoonRef.once().then((DataSnapshot snapshot) {
       snapshot.value.forEach((key, value) {
         countdaoon = countdaoon + 1;
       });
 //      print(countdaoon);
     });
-    vanglaRef = database.reference().child("image").child("vangla");
-    vanglaRef.once().then((DataSnapshot snapshot) {
-      snapshot.value.forEach((key, value) {
-        countvangla = countvangla + 1;
-      });
+//    vanglaRef = database.reference().child("image").child("vangla");
+//    vanglaRef.once().then((DataSnapshot snapshot) {
+//      snapshot.value.forEach((key, value) {
+//        countvangla = countvangla + 1;
+//      });
 //      print(countvangla);
-    });
-    khongbenhRef = database.reference().child("image").child('khongbenh');
+//    });
+    khongbenhRef = database.reference().child("Hinh_anh").child('khongbenh');
     khongbenhRef.once().then((DataSnapshot snapshot) {
 //      print(snapshot.value);
       snapshot.value.forEach((key,value){
@@ -369,8 +369,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         query: dbRef,
                         itemBuilder: (BuildContext context, DataSnapshot snapshot,
                             Animation<double> animation, int index) {
-                          username_ar.add(snapshot.value['username']);
-                          password_ar.add(snapshot.value['password']);
+                          username_ar.add(snapshot.value['Ten_DN']);
+                          password_ar.add(snapshot.value['Mat_khau']);
                           return Center(child: Text(error,style: TextStyle(color: Colors.red),));
                         })),
               ],

@@ -19,36 +19,36 @@ final FirebaseApp app = initializeApp(
 FirebaseApp initializeApp({FirebaseOptions options}) {}
 class Disease {
   String key;
-  String Id_DI;
-  String Id_user;
-  String expression;
-  String image;
-  String medicine;
-  String name;
-  String reason;
-  String treatment;
-  Disease(this.Id_DI, this.Id_user, this.expression, this.image,
-      this.medicine, this.name, this.reason, this.treatment);
+  String Ma_benh;
+  String Ma_admin;
+  String Bieu_hien;
+  String Hinhanh;
+  String Thuoc;
+  String Ten_benh;
+  String Nguyen_nhan;
+  String Chua_tri;
+  Disease(this.Ma_benh, this.Ma_admin, this.Bieu_hien, this.Hinhanh,
+      this.Thuoc, this.Ten_benh, this.Nguyen_nhan, this.Chua_tri);
   Disease.fromSnapshot(DataSnapshot snapshot)
       : key = snapshot.key,
-        Id_DI = snapshot.value['Id_DI'],
-        Id_user = snapshot.value['Id_user'],
-        expression = snapshot.value['expression'],
-        image = snapshot.value['image'],
-        medicine = snapshot.value['medicine'],
-        name = snapshot.value['name'],
-        reason = snapshot.value['reason'],
-        treatment = snapshot.value['treatment'];
+        Ma_benh = snapshot.value['Ma_benh'],
+        Ma_admin = snapshot.value['Ma_admin'],
+        Bieu_hien = snapshot.value['Bieu_hien'],
+        Hinhanh = snapshot.value['Hinhanh'],
+        Thuoc = snapshot.value['Thuoc'],
+        Ten_benh = snapshot.value['Ten_benh'],
+        Nguyen_nhan= snapshot.value['Nguyen_nhan'],
+        Chua_tri = snapshot.value['Chua_tri'];
   toJson() {
     return {
-      "Id_DI": Id_DI,
-      "Id_user": Id_user,
-      "expression": expression,
-      "image": image,
-      "medicine": medicine,
-      "name": name,
-      "reason": reason,
-      "treatment": treatment
+      "Ma_benh": Ma_benh,
+      "Ma_admin": Ma_admin,
+      "Bieu_hien": Bieu_hien,
+      "Hinhanh": Hinhanh,
+      "Thuoc": Thuoc,
+      "Ten_benh": Ten_benh,
+      "Nguyen_nhan": Nguyen_nhan,
+      "Chua_tri": Chua_tri
     };
   }
 }
@@ -76,7 +76,7 @@ class DiseaseInfor extends State<MyDiseaseInforAdmin> {
     super.initState();
     infor = Disease("", "", "", "", "", "", "", "");
     final FirebaseDatabase database = FirebaseDatabase(app: app);
-    dbRef = database.reference().child("diseaseInfor");
+    dbRef = database.reference().child("Benh");
 //    dbRef.once().then((DataSnapshot snapshot) {
 //      print(snapshot.value);
 //    });
@@ -124,7 +124,7 @@ class DiseaseInfor extends State<MyDiseaseInforAdmin> {
                                     padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                                     color: Colors.white,
                                     onPressed: () => {
-                                    navigateToShowInfor(context,snapshot.value['name']),
+                                    navigateToShowInfor(context,snapshot.value['Ten_benh']),
 //                                      label = snapshot.value['name'],
 //                                      show = true
                                     },
@@ -134,7 +134,7 @@ class DiseaseInfor extends State<MyDiseaseInforAdmin> {
                                             padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
                                             child: new Image.asset(
                                               "assets/images/" +
-                                                  snapshot.value["image"],
+                                                  snapshot.value["Hinhanh"],
                                               fit: BoxFit.cover,
                                               width: 70.0,
                                               height: 70.0,
@@ -144,7 +144,7 @@ class DiseaseInfor extends State<MyDiseaseInforAdmin> {
                                             child: SizedBox(
                                               width: 200.0,
                                               child: Text(
-                                                  snapshot.value["name"],
+                                                  snapshot.value["Ten_benh"],
                                                   maxLines: 5,
                                                   overflow: TextOverflow.ellipsis,
                                                   softWrap: false,

@@ -23,33 +23,33 @@ import 'package:hexcolor/hexcolor.dart';
 class MarketRate {
   String key;
 //  String Id;
-  String Id_user;
-  String name;
-  String price;
+  String Ma_admin;
+  String Ten_NS;
+  String Gia;
 //  String date;
 //  String location;
   MarketRate(
 //      this.Id,
-      this.Id_user,
-      this.name,
-      this.price,
+      this.Ma_admin,
+      this.Ten_NS,
+      this.Gia,
 //      this.date,
 //      this.location,
       );
   MarketRate.fromSnapshot(DataSnapshot snapshot)
       : key = snapshot.key,
 //        Id = snapshot.value['Id'],
-        Id_user = snapshot.value['Id_user'],
-        name = snapshot.value['name'],
-        price = snapshot.value['price'];
+        Ma_admin = snapshot.value['Ma_admin'],
+        Ten_NS = snapshot.value['Ten_NS'],
+        Gia = snapshot.value['Gia'];
 //        date = snapshot.value['date'],
 //        location = snapshot.value['location'];
   toJson() {
     return {
 //      "Id": Id,
-      "Id_user": Id_user,
-      "name": name,
-      "price": price,
+      "Ma_admin": Ma_admin,
+      "Ten_NS": Ten_NS,
+      "Gia": Gia,
 //      "date": date,
 //      "location": location,
     };
@@ -74,7 +74,7 @@ class dynamicWidget extends State<MyAddMarketAdmin> {
     super.initState();
     rate = MarketRate("", "", "");
     final FirebaseDatabase database = FirebaseDatabase(app: app);
-    rateRef = database.reference().child("market_rate");
+    rateRef = database.reference().child("Gia_NS");
     rateRef.once().then((DataSnapshot snapshot) {
       print(snapshot.value);
     });
@@ -143,9 +143,9 @@ class dynamicWidget extends State<MyAddMarketAdmin> {
               onPressed:(){
                 if(Product.text.toString() != '' && Price.text.toString() != ''){
                   rateRef.push().set(<String,String>{
-                    "Id_user": '1',
-                    "name": Product.text.toString(),
-                    "price": Price.text.toString(),
+                    "Ma_admin": '1',
+                    "Ten_NS": Product.text.toString(),
+                    "Gia": Price.text.toString(),
                   });
                   Navigator.pop(context);
                 }

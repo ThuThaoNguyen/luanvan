@@ -10,7 +10,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'marketrate.dart';
 import 'home_page.dart';
 import 'finddinfor.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:tflite_example/widgets/recognition.dart';
 //final FirebaseApp app = initializeApp(
 //    options: FirebaseOptions(
 //        googleAppID: "1:673866928334:android:448337214e83c7c60d409f",
@@ -26,36 +26,36 @@ class MydiseaseInfor extends StatefulWidget {
 
 class DiseaseInfor {
   String key;
-  String Id_DI;
-  String Id_user;
-  String expression;
-  String image;
-  String medicine;
-  String name;
-  String reason;
-  String treatment;
-  DiseaseInfor(this.Id_DI, this.Id_user, this.expression, this.image,
-      this.medicine, this.name, this.reason, this.treatment);
+  String Ma_benh;
+  String Ma_admin;
+  String Bieu_hien;
+  String Hinhanh;
+  String Thuoc;
+  String Ten_benh;
+  String Nguyen_nhan;
+  String Chua_tri;
+  DiseaseInfor(this.Ma_benh, this.Ma_admin, this.Bieu_hien, this.Hinhanh,
+      this.Thuoc, this.Ten_benh, this.Nguyen_nhan, this.Chua_tri);
   DiseaseInfor.fromSnapshot(DataSnapshot snapshot)
       : key = snapshot.key,
-        Id_DI = snapshot.value['Id_DI'],
-        Id_user = snapshot.value['Id_user'],
-        expression = snapshot.value['expression'],
-        image = snapshot.value['image'],
-        medicine = snapshot.value['medicine'],
-        name = snapshot.value['name'],
-        reason = snapshot.value['reason'],
-        treatment = snapshot.value['treatment'];
+        Ma_benh = snapshot.value['Ma_benh'],
+        Ma_admin = snapshot.value['Ma_admin'],
+        Bieu_hien = snapshot.value['Bieu_hien'],
+        Hinhanh = snapshot.value['Hinhanh'],
+        Thuoc = snapshot.value['Thuoc'],
+        Ten_benh = snapshot.value['Ten_benh'],
+        Nguyen_nhan= snapshot.value['Nguyen_nhan'],
+        Chua_tri = snapshot.value['Chua_tri'];
   toJson() {
     return {
-      "Id_DI": Id_DI,
-      "Id_user": Id_user,
-      "expression": expression,
-      "image": image,
-      "medicine": medicine,
-      "name": name,
-      "reason": reason,
-      "treatment": treatment
+      "Ma_benh": Ma_benh,
+      "Ma_admin": Ma_admin,
+      "Bieu_hien": Bieu_hien,
+      "Hinhanh": Hinhanh,
+      "Thuoc": Thuoc,
+      "Ten_benh": Ten_benh,
+      "Nguyen_nhan": Nguyen_nhan,
+      "Chua_tri": Chua_tri
     };
   }
 }
@@ -70,7 +70,7 @@ class disease_infor extends State<MydiseaseInfor> {
     super.initState();
     infor = DiseaseInfor("", "", "", "", "", "", "", "");
     final FirebaseDatabase database = FirebaseDatabase(app: app);
-    dbRef = database.reference().child("diseaseInfor");
+    dbRef = database.reference().child("Benh");
   }
 
   @override
@@ -95,9 +95,9 @@ class disease_infor extends State<MydiseaseInfor> {
           backgroundColor: Colors.green[600], //lightGreen[600],
           title: Container(
 //            padding: EdgeInsets.fromLTRB(30, 0, 40, 0),
-            child: kq != null
+            child: nametitle != null
               ?Text(
-              kq.toString().toUpperCase(),
+              nametitle.toString().toUpperCase(),
               style: new TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
@@ -115,6 +115,16 @@ class disease_infor extends State<MydiseaseInfor> {
                 fontFamily: "Merriweather",
               ),
             )
+                :(nametitleonline != null
+                ?Text(
+                     nametitleonline.toString().toUpperCase(),
+                     style: new TextStyle(
+                     color: Colors.white,
+                      fontSize: 20.0,
+                // fontStyle: FontStyle.italic,
+                      fontFamily: "Merriweather",
+                  ),
+                   )
             :Text("Không tìm thấy thông tin",
               style: new TextStyle(
                 color: Colors.white,
@@ -122,7 +132,9 @@ class disease_infor extends State<MydiseaseInfor> {
                 // fontStyle: FontStyle.italic,
                 fontFamily: "Merriweather",
               ),
-            ))
+            )
+            )
+            )
 
           ),
           centerTitle:true ,
@@ -134,13 +146,13 @@ class disease_infor extends State<MydiseaseInfor> {
                 query: dbRef,
                 itemBuilder: (BuildContext context, DataSnapshot snapshot,
                     Animation<double> animation, int index) {
-                  return snapshot.value["name"] == kq || snapshot.value["name"] == kq1
+                  return snapshot.value["Ma_benh"] == kq || snapshot.value["Ten_benh"] == kq1 || snapshot.value["Ma_benh"] == nametitleonline
                       ? Column(children: <Widget>[
                           new Image.asset(
-                            "assets/images/" + snapshot.value["image"],
-                            fit: BoxFit.cover,
-                            width: 380.0,
-                            height: 180.0,
+                            "assets/images/" + snapshot.value["Hinhanh"],
+                            fit: BoxFit.fill,
+                            width: MediaQuery.of(context).size.width,
+                            height: 250.0,
                           ),
                           Center(
                             child: Container(
@@ -157,7 +169,7 @@ class disease_infor extends State<MydiseaseInfor> {
                           Center(
                             child: Container(
                                 padding: EdgeInsets.fromLTRB(10, 8, 10, 0),
-                                child: Text(snapshot.value["expression"].toString()
+                                child: Text(snapshot.value["Bieu_hien"].toString()
                                     .replaceAll(".", ".\n"),
                                     style: new TextStyle(
                                       color: Hexcolor("#000000"),
@@ -181,7 +193,7 @@ class disease_infor extends State<MydiseaseInfor> {
                             child: Container(
                                 padding: EdgeInsets.fromLTRB(10, 8, 10, 0),
                                 child: Text(
-                                  snapshot.value["reason"].toString()
+                                  snapshot.value["Nguyen_nhan"].toString()
                                       .replaceAll(".", ".\n"),
                                   style: new TextStyle(
                                     color: Hexcolor("#000000"),
@@ -206,7 +218,7 @@ class disease_infor extends State<MydiseaseInfor> {
                             child: Container(
                                 padding: EdgeInsets.fromLTRB(10, 8, 10, 0),
                                 child: Text(
-                                  snapshot.value["treatment"].toString()
+                                  snapshot.value["Chua_tri"].toString()
                                       .replaceAll(".", ".\n"),
                                   style: new TextStyle(
                                     color: Hexcolor("#000000"),
@@ -219,7 +231,7 @@ class disease_infor extends State<MydiseaseInfor> {
                             child: Container(
                                 padding: EdgeInsets.fromLTRB(10, 8, 10, 0),
                                 child: Text("Thuốc: "+
-                                  snapshot.value["medicine"].toString()
+                                  snapshot.value["Thuoc"].toString()
                                       .replaceAll(".", ".\n"),
                                   style: new TextStyle(
                                     color: Hexcolor("#000000"),

@@ -1,6 +1,0 @@
-bo_gai
-dao_on
-chay_bia_la
-dom_nau
-vang_la
-khong_benh

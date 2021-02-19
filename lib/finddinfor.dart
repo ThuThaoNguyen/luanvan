@@ -33,7 +33,7 @@ class finddesease extends State<FindInfor> {
     super.initState();
     infor = DiseaseInfor("", "", "", "", "", "", "", "");
     final FirebaseDatabase database = FirebaseDatabase(app: app);
-    dbRef = database.reference().child("diseaseInfor");
+    dbRef = database.reference().child("Benh");
   }
 
   @override
@@ -94,7 +94,10 @@ class finddesease extends State<FindInfor> {
       return name;
     });
   }
-
+  void disposed(){
+    super.dispose();
+  }
+  bool error = false;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -108,12 +111,12 @@ class finddesease extends State<FindInfor> {
                   query: dbRef,
                   itemBuilder: (BuildContext context, DataSnapshot snapshot,
                       Animation<double> animation, int index) {
-                    findconsin(tukhoa, snapshot.value["name"]);
+                    findconsin(tukhoa, snapshot.value["Ten_benh"]);
                     if (name.length != 0) {
                       havevalue = 1;
                     };
                     return name.length != 0 &&
-                            name.contains(snapshot.value["name"])
+                            name.contains(snapshot.value["Ten_benh"])
                         ? Center(
                             child: SingleChildScrollView(
                                 child: Container(
@@ -123,7 +126,7 @@ class finddesease extends State<FindInfor> {
                               padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                               color: Colors.white,
                               onPressed: () => {
-                                TranResult(snapshot.value["name"]),
+                                TranResult(snapshot.value["Ten_benh"]),
                                 navigateToDiseableInfor(context)
                               },
                               child: Row(
@@ -132,7 +135,7 @@ class finddesease extends State<FindInfor> {
                                       padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
                                       child: new Image.asset(
                                         "assets/images/" +
-                                            snapshot.value["image"],
+                                            snapshot.value["Hinhanh"],
                                         fit: BoxFit.cover,
                                         width: 70.0,
                                         height: 70.0,
@@ -142,7 +145,7 @@ class finddesease extends State<FindInfor> {
                                       child: SizedBox(
                                         width: 200.0,
                                         child: Text(
-                                            snapshot.value["name"],
+                                            snapshot.value["Ten_benh"],
                                             maxLines: 5,
                                             overflow: TextOverflow.ellipsis,
                                             softWrap: false,
@@ -157,8 +160,9 @@ class finddesease extends State<FindInfor> {
                                   side: BorderSide(color: Colors.green[600])),
                             ),
                           )))
-                        : Text("");
+                        : Text('');
                   })),
+
 //      havevalue == 0
 //              ? Center(
 //              child: Container(

@@ -33,6 +33,7 @@ import 'package:path/path.dart' as Path;
 //}
 var kq;
 var tukhoa;
+var nametitle;
 Color color = Colors.white;
 @override
 class MyImagePicker extends StatefulWidget {
@@ -96,8 +97,8 @@ class MyImagePickerState extends State<MyImagePicker> {
 
   Future classifyImage() async {
     await Tflite.loadModel(
-        model: "assets/model_unquant54.tflite",
-        labels: "assets/labels54.txt",
+        model: "assets/final_modelthup2.tflite",
+        labels: "assets/rice_labelsthup2.txt",
         numThreads: 1,
         isAsset: true,
         useGpuDelegate: false);
@@ -116,32 +117,40 @@ class MyImagePickerState extends State<MyImagePicker> {
           .replaceAll("}]", "");
        condition = double.parse( result.substring(12,output.toString().indexOf(',')-1));
        print(condition);
-       bogai = result.contains("bo_gai");
-       chaybiala = result.contains("chay_bia_la");
-       daoon = result.contains("dao_on");
-       domnau = result.contains("dom_nau");
-       khongbenh = result.contains("khong_benh");
-       vangla = result.contains("vang_la");
+       bogai = result.contains("bo gai");
+       chaybiala = result.contains("chay bia la");
+       daoon = result.contains("dao on");
+       domnau = result.contains("dom nau");
+       khongbenh = result.contains("khong benh");
+//       vangla = result.contains("vang_la");
        if (bogai){
-         kq = "Bọ gai";
-         uploadFile('image/bogai');
+         nametitle = "Bệnh bọ gai";
+         kq = "bogai";
+         uploadFile('Hinh_anh/bogai');
        }
        else if (chaybiala){
-         kq = "Bệnh cháy bìa lá";
-         uploadFile('image/chaybiala');
+         nametitle = "Bệnh cháy bìa lá";
+         kq = "chaybiala";
+         uploadFile('Hinh_anh/chaybiala');
        }
        else if(daoon){
-         kq = "Bệnh đạo ôn";
-         uploadFile('image/daoon');
+         nametitle = "Bệnh đạo ôn";
+         kq = "daoon";
+         uploadFile('Hinh_anh/daoon');
        }
        else if(domnau){
-         kq = "Bệnh đốm nâu";
-         uploadFile('image/domnau');
+         nametitle = "Bệnh đốm nâu";
+         kq = "domnau";
+         uploadFile('Hinh_anh/domnau');
        }
-       else {
-         kq = "Bệnh vàng lá";
-         uploadFile('image/vangla');
+//       else if(vangla){
+//         kq = "Bệnh vàng lá";
+//         uploadFile('image/vangla');
+//       }
+       else{
+         uploadFile('Hinh_anh/khongbenh');
        }
+
       print(kq);
     });
     Tflite.close();
@@ -241,34 +250,15 @@ class MyImagePickerState extends State<MyImagePicker> {
               content: SingleChildScrollView(
                 child: Column(children: <Widget>[
                   Container(
-                      decoration: myboxDecoration(),
+//                      decoration: myboxDecoration(),
                       child: Column(
                         children: <Widget>[
                           Container(
                             padding: EdgeInsets.all(10.0),
                             child:Image.file(imageURI,
-                                width: 300, height: 200, fit: BoxFit.cover),
+                                width: MediaQuery.of(context).size.width, height: MediaQuery.of(context).size.height, fit: BoxFit.fill),
                           ),
-                          result == null
-                              ? Container(
-                            margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                            child: Text('Kết quả', style: style),
-                            color: Colors.grey,
-                            padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
-                          )
-                              : condition >= 0.5
-                                  ? Container(
-                                       margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                                       child: Text(result, style: style),
-//                                  color: Colors.grey,
-                                       padding: EdgeInsets.fromLTRB(10, 12, 0, 12),
-                                   )
-                                  : Container(
-                                   margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                                       child: Text('Không xác định', style: style),
-//                                     color: Colors.grey,
-                                       padding: EdgeInsets.fromLTRB(0, 12, 0, 12),
-                                    )
+
 
                         ],
                       )
@@ -276,8 +266,27 @@ class MyImagePickerState extends State<MyImagePicker> {
                 ]),
               ),
               actions: <Widget>[
+                result == null ? Container(
+
+                  margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: Text('Kết quả', style: style),
+                  color: Colors.grey,
+                  padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
+                ) : condition >= 0.5
+                    ? Container(
+                  margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: Text(result, style: style),
+//                                  color: Colors.grey,
+                  padding: EdgeInsets.fromLTRB(10, 12, 0, 12),
+                )
+                    : Container(
+                  margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: Text('Không xác định', style: style),
+//                                     color: Colors.grey,
+                  padding: EdgeInsets.fromLTRB(0, 12, 0, 12),
+                ),
                 khongbenh == false && condition >= 0.5
-                    ?
+                    ? Center(child:
                 Row(
                   children: <Widget>[
                     FlatButton(
@@ -291,7 +300,7 @@ class MyImagePickerState extends State<MyImagePicker> {
                       ),
                       textColor: Colors.green[600],
                       color: Colors.white,
-                      padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                      padding: EdgeInsets.fromLTRB(9, 5, 0, 5),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
                       ),
@@ -315,8 +324,9 @@ class MyImagePickerState extends State<MyImagePicker> {
                     )
                   ],
                 )
-//                         margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
-                    :FlatButton(
+                  )
+                    : Center(child:
+                FlatButton(
                   onPressed: () {
                     toreturn();
 //                           Navigator.pop(context);
@@ -332,26 +342,13 @@ class MyImagePickerState extends State<MyImagePicker> {
                     borderRadius: BorderRadius.circular(18.0),
 
                   ),
-                )
-//                         :Text("")
+                ))
+
+//                        :Text("")
               ],
             ),
         ),
-//        floatingActionButton: imageURI != null
-//            ? FloatingActionButton(
-//                backgroundColor: Colors.lightGreen,
-//                child: (IconButton(
-//                    icon: Icon(
-//                  Icons.control_point,
-//                  color: Colors.white,
-//                  size: 30.0,
-//                ))),
-//                tooltip: "Add",
-//                onPressed: (){
-//                  toreturn();
-//                }
-//              )
-//            : Text("")
+
     );
   }
   void dispose(){
